@@ -24,7 +24,8 @@ public final class Mk4iSwerveModuleHelper {
                 .withPidConstants(1.0, 0.0, 0.1)
                 .withCurrentLimit(configuration.getSteerCurrentLimit())
                 .build(new CanCoderFactoryBuilder()
-                        .withReadingUpdatePeriod(100)
+                        .withReadingUpdatePeriod(50)
+                        //periodMilliseconds: from 100 to 50
                         .build());
     }
 
@@ -41,7 +42,8 @@ public final class Mk4iSwerveModuleHelper {
                 .withPidConstants(1.0, 0.0, 0.1)
                 .withCurrentLimit(configuration.getSteerCurrentLimit())
                 .build(new CanCoderFactoryBuilder()
-                        .withReadingUpdatePeriod(100)
+                        .withReadingUpdatePeriod(50)
+                        //periodMilliseconds: from 100 to 50
                         .build());
     }
 
