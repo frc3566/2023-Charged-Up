@@ -11,7 +11,7 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.FunctionalCommand;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.button.Button;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.DefaultDriveCommand;
 import frc.robot.subsystems.DrivetrainSubsystem;
 
@@ -27,6 +27,8 @@ public class RobotContainer {
 
   private final XboxController m_controller = new XboxController(0);
   // private final Joystick m_joystick = new Joystick(0);
+
+  private final JoystickButton zeroGyro = new JoystickButton(m_controller, XboxController.Button.kY.value);
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -66,9 +68,7 @@ public class RobotContainer {
   private void configureButtonBindings() {
     // Back button zeros the gyroscope
     // TODO map a button to zero gyroscope
-    new Button(m_controller::getBackButton)
-            // No requirements because we don't need to interrupt anything
-            .whenPressed(m_drivetrainSubsystem::zeroGyroscope);
+    zeroGyro.onTrue(new InstantCommand(() -> m_drivetrainSubsystem.zeroGyroscope()));
   }
 
   /**
