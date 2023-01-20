@@ -36,14 +36,14 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class TestingDashboard {
   private static TestingDashboard testingDashboard;
   private ArrayList<TestingDashboardTab> testingTabs;
-  private TestingDashboardTab defautTab;
+  private TestingDashboardTab defaultTab;
   boolean initialized = false;
     
   private TestingDashboard() {
     testingTabs = new ArrayList<TestingDashboardTab>();
     initialized = false;
-    defautTab = new TestingDashboardTab();
-
+    defaultTab = new TestingDashboardTab();
+    testingTabs.add(defaultTab);
   }
 
   public static TestingDashboard getInstance() {
@@ -70,7 +70,7 @@ public class TestingDashboard {
         return tab;
       }
     }
-    return null;
+    return defaultTab;
   }
 
   /*
