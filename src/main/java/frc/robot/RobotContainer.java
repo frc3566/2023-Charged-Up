@@ -55,8 +55,14 @@ public class RobotContainer {
     //     () -> -modifyAxis(m_joystick.getRawAxis(2)) * DrivetrainSubsystem.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND
     // ));
 
+    configureShuffleBoard();
+
     // Configure the button bindings
     configureButtonBindings();
+  }
+
+  private void configureShuffleBoard(){
+    
   }
 
   /**
