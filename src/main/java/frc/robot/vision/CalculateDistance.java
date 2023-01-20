@@ -12,7 +12,9 @@ public class CalculateDistance {
     public double toReflectiveTape() {
         NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
         NetworkTableEntry ty = table.getEntry("ty");
-        double targetOffsetAngle_Vertical = ty.getDouble(0.0);
+        NetworkTableEntry tx = table.getEntry("tx");
+        double vertical_targetOffsetAngle = ty.getDouble(0.0);
+        double horizontal_targetOffsetAngle = tx.getDouble(0.0);
         
         // TODO fill this out
         // how many degrees back is your limelight rotated from perfectly vertical?
@@ -25,10 +27,18 @@ public class CalculateDistance {
         // distance from the target to the floor
         double goalHeight = 0.56;
         
-        double angleToGoalDegrees = limelightMountAngleDegrees + targetOffsetAngle_Vertical;
-        double angleToGoalRadians = Math.toRadians(angleToGoalDegrees);
+        double vertical_angleToGoalDegrees = limelightMountAngleDegrees + vertical_targetOffsetAngle;
+        double vertical_angleToGoalRadians = Math.toRadians(vertical_angleToGoalDegrees);
 
-        return (goalHeight - limelightLensHeight) / Math.tan(angleToGoalRadians);
+        double horizontal_angleToGoalDegrees = horizontal_targetOffsetAngle; 
+        double horizontal_angleToGoalRadians = Math.toRadians(horizontal_angleToGoalDegrees);
+
+        double verticalDistance = (goalHeight - limelightLensHeight) / Math.tan(vertical_angleToGoalRadians);
+        double horizontalDistance = verticalDistance * Math.tan(horizontal_angleToGoalRadians);
+
+        double euclideanDistance = Math.sqrt(verticalDistance*verticalDistance + horizontalDistance*horizontalDistance);
+
+        return euclideanDistance;
     }
 
 }
