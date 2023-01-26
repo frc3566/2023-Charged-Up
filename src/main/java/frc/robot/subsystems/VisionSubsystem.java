@@ -4,49 +4,50 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.networktables.DoubleArrayEntry;
+import edu.wpi.first.networktables.DoubleArraySubscriber;
+import edu.wpi.first.networktables.DoubleArrayTopic;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class VisionSubsystem extends SubsystemBase {
+
+  private DoubleArraySubscriber botpose_1;
+  private DoubleArraySubscriber botpose_2;
+
   /** Creates a new ExampleSubsystem. */
-  public VisionSubsystem() {}
-
-  public double distToReflectiveTape() {
-    NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
-    NetworkTableEntry ty = table.getEntry("ty");
-    NetworkTableEntry tx = table.getEntry("tx");
-    double vertical_targetOffsetAngle = ty.getDouble(0.0);
-    double horizontal_targetOffsetAngle = tx.getDouble(0.0);
-    
-    // TODO fill this out
-    // how many degrees back is your limelight rotated from perfectly vertical?
-    double limelightMountAngleDegrees = 25.0;
-    
-    // TODO fill this out
-    // distance from the center of the Limelight lens to the floor
-    double limelightLensHeight = 0.0;
-    
-    // distance from the target to the floor
-    double goalHeight = 0.56;
-    
-    double vertical_angleToGoalDegrees = limelightMountAngleDegrees + vertical_targetOffsetAngle;
-    double vertical_angleToGoalRadians = Math.toRadians(vertical_angleToGoalDegrees);
-
-    double horizontal_angleToGoalDegrees = horizontal_targetOffsetAngle; 
-    double horizontal_angleToGoalRadians = Math.toRadians(horizontal_angleToGoalDegrees);
-
-    double verticalDistance = (goalHeight - limelightLensHeight) / Math.tan(vertical_angleToGoalRadians);
-    double horizontalDistance = verticalDistance * Math.tan(horizontal_angleToGoalRadians);
-
-    double euclideanDistance = Math.sqrt(verticalDistance*verticalDistance + horizontalDistance*horizontalDistance);
-
-    return euclideanDistance;
+  public VisionSubsystem() {
+    subscribeToRobotPosition();
   }
 
-  public double toAprilTag(int n) {
-    return 0.0;
+  // Data format (botpose - metres & degrees): x, y, z, roll, pitch, yaw
+  public void subscribeToRobotPosition() {
+    NetworkTable limelight1 = NetworkTableInstance.getDefault().getTable("limelight1");
+    NetworkTable limelight2 = NetworkTableInstance.getDefault().getTable("limelight2");
+    botpose_1 = limelight1.getDoubleArrayTopic("botpose").subscribe(new double[] {});
+    botpose_2 = limelight2.getDoubleArrayTopic("botpose").subscribe(new double[] {});;
+  }
+
+  public double[] getRobotPosition() {
+    double[] botpose_1_value = botpose_1.get();
+    double[] botpose_2_value = botpose_2.get();
+    if (botpose_1_value.length == 0 && botpose_2_value.length == 0) {
+      // no apriltags are visible, just stick to last estimate (or maybe use other source of data?) some kind of fallback?
+      return null;
+    } else if (botpose_1_value.length == 0) {
+      return botpose_2_value;
+    } else if (botpose_2_value.length == 0) {
+      return botpose_1_value;
+    } else {
+      if (botpose_1_value == botpose_2_value) { return botpose_1_value; }
+      double[] avg_botpose_value = {};
+      for (int i = 0; i < botpose_1_value.length; i++) {
+        avg_botpose_value[i] = (botpose_1_value[i] + botpose_2_value[i]) / 2;
+      }
+      return avg_botpose_value;
+    }
   }
 
   @Override
