@@ -99,7 +99,38 @@ public class Swerve extends SubsystemBase {
     }
 
     public void zeroGyro(){
+<<<<<<< Updated upstream
         gyro.zeroYaw();
+=======
+        gyro.setYaw(0);
+    }
+
+    
+    public void increaseSpeed() {
+        SmartDashboard.putNumber("Coefficient:", RobotContainer.speedCoefficient);
+        if (RobotContainer.speedCoefficient >= 0.9){
+            System.out.println("Speed at maximum.");
+            RobotContainer.speedCoefficient = 0.9;
+            return;
+        }
+        RobotContainer.speedCoefficient += 0.1;
+        System.out.format("Speed Multiplier: %d", RobotContainer.speedCoefficient);
+    }
+
+    public void decreaseSpeed() {
+        SmartDashboard.putNumber("Coefficient:", RobotContainer.speedCoefficient);
+        if (RobotContainer.speedCoefficient <= 0.1){
+            System.out.println("Speed at minimum.");
+            RobotContainer.speedCoefficient = 0.1;
+            return;
+        }
+        RobotContainer.speedCoefficient -= 0.1;
+        System.out.format("Speed Multiplier: %d", RobotContainer.speedCoefficient);
+    }
+
+    public double getCoefficient() {
+        return RobotContainer.speedCoefficient;
+>>>>>>> Stashed changes
     }
 
     public Rotation2d getYaw() {
