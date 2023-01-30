@@ -2,6 +2,7 @@ package frc.robot.subsystems;
 
 import frc.robot.SwerveModule;
 import frc.robot.Constants;
+import frc.robot.RobotContainer;
 
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
@@ -101,7 +102,31 @@ public class Swerve extends SubsystemBase {
     public void zeroGyro(){
         gyro.zeroYaw();
     }
+    public void increaseSpeed() {
+        SmartDashboard.putNumber("Coefficient:", RobotContainer.speedCoefficient);
+        if (RobotContainer.speedCoefficient >= 0.9){
+            System.out.println("Speed at maximum.");
+            RobotContainer.speedCoefficient = 0.9;
+            return;
+        }
+        RobotContainer.speedCoefficient += 0.1;
+        System.out.println(RobotContainer.speedCoefficient);
+    }
 
+    public void decreaseSpeed() {
+        SmartDashboard.putNumber("Coefficient:", RobotContainer.speedCoefficient);
+        if (RobotContainer.speedCoefficient <= 0.1){
+            System.out.println("Speed at minimum.");
+            RobotContainer.speedCoefficient = 0.1;
+            return;
+        }
+        RobotContainer.speedCoefficient -= 0.1;
+        System.out.println(RobotContainer.speedCoefficient);
+    }
+
+    public double getCoefficient() {
+        return RobotContainer.speedCoefficient;
+    }
     public Rotation2d getYaw() {
         return (Constants.Swerve.invertGyro) ? Rotation2d.fromDegrees(360 - gyro.getYaw()) : Rotation2d.fromDegrees(gyro.getYaw());
     }
