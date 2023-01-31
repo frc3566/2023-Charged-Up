@@ -115,9 +115,9 @@ public class Swerve extends SubsystemBase {
 
     public void decreaseSpeed() {
         SmartDashboard.putNumber("Coefficient:", RobotContainer.speedCoefficient);
-        if (RobotContainer.speedCoefficient <= 0.1){
+        if (RobotContainer.speedCoefficient <= 0.2){
             System.out.println("Speed at minimum.");
-            RobotContainer.speedCoefficient = 0.1;
+            RobotContainer.speedCoefficient = 0.2;
             return;
         }
         RobotContainer.speedCoefficient -= 0.1;
