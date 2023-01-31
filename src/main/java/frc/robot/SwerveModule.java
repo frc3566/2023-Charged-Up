@@ -82,6 +82,10 @@ public class SwerveModule {
         mAngleMotor.setSelectedSensorPosition(absolutePosition);
     }
 
+    public void resetPosition(){
+        mDriveMotor.setSelectedSensorPosition(0);
+    }
+    
     private void configAngleEncoder(){        
         angleEncoder.configFactoryDefault();
         angleEncoder.configAllSettings(Robot.ctreConfigs.swerveCanCoderConfig);
