@@ -71,8 +71,6 @@ public class RobotContainer {
         runTrajectory.onTrue(new InstantCommand(() -> new MoveToPosition(s_Swerve, teleopTrajectory)));
     }
 
-    
-
     /**
      * Use this to pass the autonomous command to the main {@link Robot} class.
      *
