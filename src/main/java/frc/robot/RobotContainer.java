@@ -29,11 +29,11 @@ public class RobotContainer {
     public static double speedCoefficient = 1.0;
 
     /* Driver Buttons */
-    private final JoystickButton zeroGyro = new JoystickButton(driver, XboxController.Button.kY.value);
+    private final JoystickButton zeroGyro = new JoystickButton(driver, XboxController.Button.kX.value);
     private final JoystickButton robotCentric = new JoystickButton(driver, XboxController.Button.kA.value);
     private final JoystickButton increaseSpeed = new JoystickButton(driver, XboxController.Button.kRightBumper.value);
     private final JoystickButton decreaseSpeed = new JoystickButton(driver, XboxController.Button.kLeftBumper.value);
-    private final JoystickButton runTrajectory = new JoystickButton(driver, XboxController.Button.kX.value);
+    private final JoystickButton runTrajectory = new JoystickButton(driver, XboxController.Button.kY.value);
 
 
     /* Subsystems */
