@@ -27,7 +27,7 @@ public class Swerve extends SubsystemBase {
     public Swerve() {
         gyro = new AHRS(Constants.Swerve.navXID);
         gyro.calibrate();
-        zeroGyro();
+        gyro.zeroYaw();
 
         mSwerveMods = new SwerveModule[] {
             new SwerveModule(0, Constants.Swerve.Mod0.constants),

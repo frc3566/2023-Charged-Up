@@ -68,7 +68,7 @@ public class RobotContainer {
         zeroGyro.onTrue(new InstantCommand(() -> s_Swerve.zeroGyro()));
         increaseSpeed.onTrue(new InstantCommand(() -> s_Swerve.increaseSpeed()));
         decreaseSpeed.onTrue(new InstantCommand(() -> s_Swerve.decreaseSpeed()));
-        runTrajectory.onTrue(new InstantCommand(() -> new MoveToPosition(s_Swerve, teleopTrajectory)));   
+        runTrajectory.onTrue(new InstantCommand(() -> new MoveToPosition(s_Swerve, teleopTrajectory)));
     }
 
     
