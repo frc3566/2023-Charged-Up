@@ -1,7 +1,6 @@
 package frc.robot.commands;
 
 import frc.robot.Constants;
-import frc.robot.SwerveModule;
 import frc.robot.subsystems.Swerve;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.math.controller.PIDController;
@@ -11,7 +10,6 @@ import edu.wpi.first.math.kinematics.SwerveModulePosition;
 public class MoveDistance extends CommandBase {
     private Swerve swerve;
     private double distance, angle;
-
     private PIDController controller = new PIDController(
         Constants.Swerve.driveKP, 
         Constants.Swerve.driveKI, 
@@ -31,16 +29,6 @@ public class MoveDistance extends CommandBase {
         distance += getAveragePosition();
         swerve.drive(new Translation2d(0, 0), angle, false, false);
     }
-    
-    public double getAveragePosition() {
-        SwerveModulePosition[] positions = swerve.getModulePositions();
-        double average = 0.0;
-        for (SwerveModulePosition mod : positions) {
-            average += mod.distanceMeters;
-        }
-        average /= positions.length;
-        return average;
-    }
 
     @Override
     public void execute() {
@@ -55,5 +43,15 @@ public class MoveDistance extends CommandBase {
     @Override
     public boolean isFinished() {
         return Math.abs(distance - getAveragePosition()) <= 0.05;
+    }
+
+    public double getAveragePosition() {
+        SwerveModulePosition[] positions = swerve.getModulePositions();
+        double average = 0.0;
+        for (SwerveModulePosition mod : positions) {
+            average += mod.distanceMeters;
+        }
+        average /= positions.length;
+        return average;
     }
 }
