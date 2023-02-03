@@ -3,7 +3,6 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -27,7 +26,7 @@ public class RobotContainer {
     private final int translationAxis = XboxController.Axis.kRightY.value;
     private final int strafeAxis = XboxController.Axis.kRightX.value;
     private final int rotationAxis = XboxController.Axis.kLeftX.value;
-    public static double speedCoefficient = 1.0;
+    public static double speedCoefficient = 0.8;
 
     /* Driver Buttons */
     private final JoystickButton zeroGyro = new JoystickButton(driver, XboxController.Button.kX.value);
@@ -36,12 +35,11 @@ public class RobotContainer {
     private final JoystickButton decreaseSpeed = new JoystickButton(driver, XboxController.Button.kLeftBumper.value);
     private final JoystickButton runTrajectory = new JoystickButton(driver, XboxController.Button.kY.value);
 
+    /* Trajectory */
+    private static Trajectory teleopTrajectory = null;
 
     /* Subsystems */
     private final Swerve s_Swerve = new Swerve();
-
-    
-
 
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
     public RobotContainer() {
@@ -66,15 +64,12 @@ public class RobotContainer {
      * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
      */
     private void configureButtonBindings() {
-        Trajectory teleopTrajectory;
         /* Driver Buttons */
         zeroGyro.onTrue(new InstantCommand(() -> s_Swerve.zeroGyro()));
         increaseSpeed.onTrue(new InstantCommand(() -> s_Swerve.increaseSpeed()));
         decreaseSpeed.onTrue(new InstantCommand(() -> s_Swerve.decreaseSpeed()));
         runTrajectory.onTrue(new InstantCommand(() -> new MoveToPosition(s_Swerve, teleopTrajectory)));
     }
-
-    
 
     /**
      * Use this to pass the autonomous command to the main {@link Robot} class.
