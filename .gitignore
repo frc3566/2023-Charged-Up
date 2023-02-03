@@ -58,3 +58,9 @@ build/tmp/compileJava/previous-compilation-data.bin
 .gradle/file-system.probe
 build/debug/debug_info.json
 build/tmp/compileJava/previous-compilation-data.bin
+.gradle/7.4.2/checksums/md5-checksums.bin
+.gradle/7.4.2/checksums/sha1-checksums.bin
+.gradle/7.6/checksums/checksums.lock
+.gradle/buildOutputCleanup/buildOutputCleanup.lock
+.gradle/buildOutputCleanup/cache.properties
+.gradle/buildOutputCleanup/outputFiles.bin
