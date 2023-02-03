@@ -35,6 +35,8 @@ public class RobotContainer {
     private final JoystickButton decreaseSpeed = new JoystickButton(driver, XboxController.Button.kLeftBumper.value);
     private final JoystickButton runTrajectory = new JoystickButton(driver, XboxController.Button.kY.value);
 
+    /* Trajectory */
+    private static Trajectory teleopTrajectory = null;
 
     /* Subsystems */
     private final Swerve s_Swerve = new Swerve();
@@ -62,7 +64,6 @@ public class RobotContainer {
      * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
      */
     private void configureButtonBindings() {
-        Trajectory teleopTrajectory;
         /* Driver Buttons */
         zeroGyro.onTrue(new InstantCommand(() -> s_Swerve.zeroGyro()));
         increaseSpeed.onTrue(new InstantCommand(() -> s_Swerve.increaseSpeed()));
