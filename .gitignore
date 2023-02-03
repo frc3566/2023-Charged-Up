@@ -26,41 +26,13 @@ replay_pid*
 # Avoid ignoring Gradle wrapper jar file (.jar files are usually ignored)
 !gradle-wrapper.jar
 
+# Gradle
+.gradle
+**/build/
+
 # Avoid ignore Gradle wrappper properties
 !gradle-wrapper.properties
 
 # MacOS
 .icloud
 .DS_Store
-.gradle/7.6/checksums/checksums.lock
-.gradle/7.6/checksums/md5-checksums.bin
-.gradle/7.6/checksums/sha1-checksums.bin
-.gradle/7.6/dependencies-accessors/dependencies-accessors.lock
-.gradle/7.6/executionHistory/executionHistory.bin
-.gradle/7.6/executionHistory/executionHistory.lock
-.gradle/7.6/fileHashes/fileHashes.bin
-.gradle/7.6/fileHashes/fileHashes.lock
-.gradle/7.6/fileHashes/resourceHashesCache.bin
-.gradle/buildOutputCleanup/buildOutputCleanup.lock
-.gradle/file-system.probe
-build/debug/debug_info.json
-build/tmp/compileJava/previous-compilation-data.bin
-.gradle/7.6/checksums/checksums.lock
-.gradle/7.6/checksums/md5-checksums.bin
-.gradle/7.6/checksums/sha1-checksums.bin
-.gradle/7.6/dependencies-accessors/dependencies-accessors.lock
-.gradle/7.6/executionHistory/executionHistory.bin
-.gradle/7.6/executionHistory/executionHistory.lock
-.gradle/7.6/fileHashes/fileHashes.bin
-.gradle/7.6/fileHashes/fileHashes.lock
-.gradle/7.6/fileHashes/resourceHashesCache.bin
-.gradle/buildOutputCleanup/buildOutputCleanup.lock
-.gradle/file-system.probe
-build/debug/debug_info.json
-build/tmp/compileJava/previous-compilation-data.bin
-.gradle/7.4.2/checksums/md5-checksums.bin
-.gradle/7.4.2/checksums/sha1-checksums.bin
-.gradle/7.6/checksums/checksums.lock
-.gradle/buildOutputCleanup/buildOutputCleanup.lock
-.gradle/buildOutputCleanup/cache.properties
-.gradle/buildOutputCleanup/outputFiles.bin

@@ -40,6 +40,8 @@ public class RobotContainer {
     private final JoystickButton decreaseSpeed = new JoystickButton(driver, XboxController.Button.kLeftBumper.value);
     private final JoystickButton runTrajectory = new JoystickButton(driver, XboxController.Button.kY.value);
 
+    /* Trajectory */
+    private static Trajectory teleopTrajectory = null;
 
     /* Subsystems */
     private final Swerve s_Swerve = new Swerve();
