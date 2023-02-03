@@ -3,9 +3,14 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+
+import java.io.IOException;
+
 import edu.wpi.first.math.trajectory.Trajectory;
 
 import frc.robot.autos.*;
@@ -26,7 +31,7 @@ public class RobotContainer {
     private final int translationAxis = XboxController.Axis.kRightY.value;
     private final int strafeAxis = XboxController.Axis.kRightX.value;
     private final int rotationAxis = XboxController.Axis.kLeftX.value;
-    public static double speedCoefficient = 0.8;
+    public static double speedCoefficient = 1.0;
 
     /* Driver Buttons */
     private final JoystickButton zeroGyro = new JoystickButton(driver, XboxController.Button.kX.value);
@@ -38,9 +43,12 @@ public class RobotContainer {
 
     /* Subsystems */
     private final Swerve s_Swerve = new Swerve();
+    private Vision vision;
 
-    /** The container for the robot. Contains subsystems, OI devices, and commands. */
-    public RobotContainer() {
+
+    /** The container for the robot. Contains subsystems, OI devices, and commands. 
+     * @throws IOException*/
+    public RobotContainer() throws IOException {
         s_Swerve.setDefaultCommand(
             new TeleopSwerve(
                 s_Swerve, 
@@ -51,6 +59,7 @@ public class RobotContainer {
             )
         );
 
+        vision = new Vision();
         // Configure the button bindings
         configureButtonBindings();
     }
@@ -62,13 +71,13 @@ public class RobotContainer {
      * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
      */
     private void configureButtonBindings() {
-        Trajectory teleopTrajectory;
         /* Driver Buttons */
         zeroGyro.onTrue(new InstantCommand(() -> s_Swerve.zeroGyro()));
         increaseSpeed.onTrue(new InstantCommand(() -> s_Swerve.increaseSpeed()));
         decreaseSpeed.onTrue(new InstantCommand(() -> s_Swerve.decreaseSpeed()));
-        runTrajectory.onTrue(new InstantCommand(() -> new MoveToPosition(s_Swerve, teleopTrajectory)));
+        runTrajectory.onTrue(new MoveToPosition(s_Swerve, vision));
     }
+    
 
     /**
      * Use this to pass the autonomous command to the main {@link Robot} class.

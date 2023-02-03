@@ -2,15 +2,16 @@ package frc.robot.commands;
 
 import frc.robot.Constants;
 import frc.robot.subsystems.Swerve;
-
+import frc.robot.subsystems.Vision;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.trajectory.Trajectory;
-import edu.wpi.first.math.trajectory.TrajectoryConfig;
+import edu.wpi.first.wpilibj.DriverStation;
 
 
 
@@ -18,33 +19,30 @@ import edu.wpi.first.math.trajectory.TrajectoryConfig;
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-public class MoveToPosition extends CommandBase {
+public class MoveToPosition extends SequentialCommandGroup {
     /** Moves the robot to the desired position */
 
     // Main defines;
 
     Swerve s_Swerve;
+    Vision vision;
 
-    Trajectory teleopTrajectory;
-
-    public MoveToPosition(Swerve s_Swerve, Trajectory teleopTrajectory) {
+    public MoveToPosition(Swerve s_Swerve, Vision vision) {
         this.s_Swerve = s_Swerve;
+        this.vision = vision;
         // Use addRequirements() here to declare subsystem dependencies.
-        addRequirements(s_Swerve);
-        this.teleopTrajectory = teleopTrajectory;
-    }
+        addRequirements(s_Swerve, vision);
+        System.out.println("Waiting for trajectory");
+        
+        var toTargetTrajectory = vision.getTrajectory(Constants.Trajectory.CONFIG, Constants.Trajectory.COEFFICIENT);
+        if (toTargetTrajectory.isEmpty()) {
+            DriverStation.reportWarning("Unable to generate trajectory", false);
+            return;
+        }
+        System.out.println("Has trajectory");
+        Trajectory teleopTrajectory = toTargetTrajectory.get();
 
-
-    // Called when the command is initially scheduled.
-    @Override
-    public void initialize() {}
-
-    // Called every time the scheduler runs while the command is scheduled.
-    @Override
-    public void execute() {
         System.out.println("Running Teleop Trajectory.");
-        // Set the drivetrain to run to the position
-        final double coefficient = 1.097;
 
         var thetaController =
             new ProfiledPIDController(
@@ -61,19 +59,10 @@ public class MoveToPosition extends CommandBase {
                 thetaController,
                 s_Swerve::setModuleStates,
                 s_Swerve);
-        
-        Commands.sequence(new InstantCommand(() -> s_Swerve.resetOdometry(teleopTrajectory.getInitialPose())), swerveControllerCommand);
-    }
 
-    // Called once the command ends or is interrupted.
-    @Override
-    public void end(boolean interrupted) {}
-
-    // Returns true when the command should end.
-    @Override
-    public boolean isFinished() {
-
-        // Check if the trajectory is complete
-        return true;
+            addCommands(
+                new InstantCommand(() -> s_Swerve.resetOdometry(teleopTrajectory.getInitialPose())),
+                swerveControllerCommand
+            );
     }
 }
