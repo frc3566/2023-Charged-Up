@@ -34,7 +34,7 @@ public class MoveToPosition extends SequentialCommandGroup {
         addRequirements(s_Swerve, vision);
         System.out.println("Waiting for trajectory");
         
-        var toTargetTrajectory = vision.getTrajectory(Constants.Trajectory.CONFIG, Constants.Trajectory.COEFFICIENT);
+        var toTargetTrajectory = vision.getTrajectory();
         if (toTargetTrajectory.isEmpty()) {
             DriverStation.reportWarning("Unable to generate trajectory", false);
             return;
