@@ -40,3 +40,12 @@ replay_pid*
 .gradle/7.6/checksums/md5-checksums.bin
 .gradle/7.6/checksums/sha1-checksums.bin
 *.lock
+.gradle/file-system.probe
+.gradle/7.6/checksums/checksums.lock
+.gradle/7.6/executionHistory/executionHistory.bin
+.gradle/7.6/executionHistory/executionHistory.lock
+.gradle/7.6/fileHashes/fileHashes.bin
+.gradle/7.6/fileHashes/fileHashes.lock
+.gradle/7.6/fileHashes/resourceHashesCache.bin
+.gradle/buildOutputCleanup/buildOutputCleanup.lock
+build/tmp/compileJava/previous-compilation-data.bin

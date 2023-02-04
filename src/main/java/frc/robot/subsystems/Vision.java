@@ -93,7 +93,7 @@ public class Vision extends SubsystemBase {
         return Optional.of(TrajectoryGenerator.generateTrajectory(
             new Pose2d(0, 0, new Rotation2d(0)),
             List.of(end.div(2)),
-            new Pose2d(end, transform.getRotation().toRotation2d().times(-1)),
+            new Pose2d(end, new Rotation2d(transform.getRotation().getAngle())),
             config
         ));
 

@@ -68,6 +68,6 @@ public class MoveToPosition extends CommandBase {
                 s_Swerve::setModuleStates,
                 s_Swerve);
         s_Swerve.resetOdometry(vision.getTrajectory().get().getInitialPose());
-        swerveControllerCommand.execute();
+        swerveControllerCommand.schedule();
     }
 }
