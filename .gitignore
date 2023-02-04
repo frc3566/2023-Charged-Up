@@ -39,3 +39,4 @@ replay_pid*
 .gradle/7.6/checksums/checksums.lock
 .gradle/7.6/checksums/md5-checksums.bin
 .gradle/7.6/checksums/sha1-checksums.bin
+*.lock
