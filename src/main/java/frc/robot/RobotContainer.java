@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ProxyCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 import frc.robot.autos.*;
@@ -41,8 +42,14 @@ public class RobotContainer {
     
 
 
+<<<<<<< Updated upstream
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
     public RobotContainer() {
+=======
+    /* The container for the robot. Contains subsystems, OI devices, and commands. 
+     * @throws IOException*/
+    public RobotContainer() throws IOException {
+>>>>>>> Stashed changes
         s_Swerve.setDefaultCommand(
             new TeleopSwerve(
                 s_Swerve, 
@@ -68,6 +75,10 @@ public class RobotContainer {
         zeroGyro.onTrue(new InstantCommand(() -> s_Swerve.zeroGyro()));
         increaseSpeed.onTrue(new InstantCommand(() -> s_Swerve.increaseSpeed()));
         decreaseSpeed.onTrue(new InstantCommand(() -> s_Swerve.decreaseSpeed()));
+<<<<<<< Updated upstream
+=======
+        runTrajectory.onTrue(new InstantCommand(() -> s_Swerve.resetOdometry(vision.getTrajectory().get().getInitialPose())).andThen(new MoveToPosition(s_Swerve, vision)));
+>>>>>>> Stashed changes
     }
 
     /**
