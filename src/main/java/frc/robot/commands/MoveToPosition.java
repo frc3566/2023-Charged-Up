@@ -67,7 +67,7 @@ public class MoveToPosition extends CommandBase {
                 thetaController,
                 s_Swerve::setModuleStates,
                 s_Swerve);
-
+        s_Swerve.resetOdometry(vision.getTrajectory().get().getInitialPose());
         swerveControllerCommand.execute();
     }
 }
