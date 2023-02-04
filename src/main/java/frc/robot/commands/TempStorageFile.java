@@ -19,7 +19,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-public class MoveToPosition extends CommandBase {
+public class MoveToPosition extends SequentialCommandGroup {
     /** Moves the robot to the desired position */
 
     // Main defines;
@@ -32,13 +32,6 @@ public class MoveToPosition extends CommandBase {
         this.vision = vision;
         // Use addRequirements() here to declare subsystem dependencies.
         addRequirements(s_Swerve, vision);
-    }
-
-    @Override
-    public void initialize() {}
-    
-    @Override
-    public void execute() {
         System.out.println("Waiting for trajectory");
         
         var toTargetTrajectory = vision.getTrajectory();
@@ -46,7 +39,6 @@ public class MoveToPosition extends CommandBase {
             DriverStation.reportWarning("Unable to generate trajectory", false);
             return;
         }
-
         System.out.println("Has trajectory");
         Trajectory teleopTrajectory = toTargetTrajectory.get();
 
@@ -68,6 +60,9 @@ public class MoveToPosition extends CommandBase {
                 s_Swerve::setModuleStates,
                 s_Swerve);
 
-        swerveControllerCommand.execute();
+            addCommands(
+                new InstantCommand(() -> s_Swerve.resetOdometry(teleopTrajectory.getInitialPose())),
+                swerveControllerCommand
+            );
     }
 }

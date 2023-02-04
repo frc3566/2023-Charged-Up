@@ -34,6 +34,7 @@ import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 import frc.robot.Constants.VisionConstants;;
 
 public class Vision extends SubsystemBase {
@@ -76,7 +77,9 @@ public class Vision extends SubsystemBase {
 
     }
 
-    public Optional<Trajectory> getTrajectory(TrajectoryConfig config, double coefficient) {
+    public Optional<Trajectory> getTrajectory() {
+        TrajectoryConfig config = Constants.Trajectory.CONFIG;
+        double coefficient = Constants.Trajectory.COEFFICIENT;
         var res = this.getTransform();
         if (res.isEmpty()) {
             DriverStation.reportWarning("No vision targets in range", false);

@@ -48,7 +48,7 @@ public class RobotContainer {
     private Vision vision;
 
 
-    /** The container for the robot. Contains subsystems, OI devices, and commands. 
+    /* The container for the robot. Contains subsystems, OI devices, and commands. 
      * @throws IOException*/
     public RobotContainer() throws IOException {
         s_Swerve.setDefaultCommand(
@@ -77,7 +77,7 @@ public class RobotContainer {
         zeroGyro.onTrue(new InstantCommand(() -> s_Swerve.zeroGyro()));
         increaseSpeed.onTrue(new InstantCommand(() -> s_Swerve.increaseSpeed()));
         decreaseSpeed.onTrue(new InstantCommand(() -> s_Swerve.decreaseSpeed()));
-        runTrajectory.onTrue(new MoveToPosition(s_Swerve, vision));
+        runTrajectory.onTrue(new InstantCommand(() -> s_Swerve.resetOdometry(vision.getTrajectory().get().getInitialPose())).andThen(new MoveToPosition(s_Swerve, vision)));
     }
     
 
