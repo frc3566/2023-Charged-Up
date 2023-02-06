@@ -26,6 +26,7 @@ import frc.robot.subsystems.*;
 public class RobotContainer {
     /* Controllers */
     private final Joystick driver = new Joystick(0);
+    private final Joystick armJoystick = new Joystick(1);
 
     /* Drive Controls */
     private final int translationAxis = XboxController.Axis.kRightY.value;
@@ -39,6 +40,9 @@ public class RobotContainer {
     private final JoystickButton increaseSpeed = new JoystickButton(driver, XboxController.Button.kRightBumper.value);
     private final JoystickButton decreaseSpeed = new JoystickButton(driver, XboxController.Button.kLeftBumper.value);
     private final JoystickButton runTrajectory = new JoystickButton(driver, XboxController.Button.kY.value);
+    private final JoystickButton extendArm = new JoystickButton(armJoystick, XboxController.Button.kX.value);
+    private final JoystickButton contractArm = new JoystickButton(armJoystick, XboxController.Button.kY.value);
+    private final JoystickButton fullyExtend = new JoystickButton(armJoystick, XboxController.Button.kA.value);
 
     /* Trajectory */
     private static Trajectory teleopTrajectory = null;
@@ -46,6 +50,7 @@ public class RobotContainer {
     /* Subsystems */
     private final Swerve s_Swerve = new Swerve();
     private Vision vision;
+    private TelescopingArm teleArm = new TelescopingArm();
 
 
     /** The container for the robot. Contains subsystems, OI devices, and commands. 
@@ -78,6 +83,9 @@ public class RobotContainer {
         increaseSpeed.onTrue(new InstantCommand(() -> s_Swerve.increaseSpeed()));
         decreaseSpeed.onTrue(new InstantCommand(() -> s_Swerve.decreaseSpeed()));
         runTrajectory.onTrue(new MoveToPosition(s_Swerve, vision));
+        extendArm.onTrue(new InstantCommand(()->teleArm.extend()));
+        contractArm.onTrue(new InstantCommand(()->teleArm.contract()));
+        fullyExtend.onTrue(new InstantCommand(()->teleArm.fullyExtend()));
     }
     
 
