@@ -35,6 +35,9 @@ public class RobotContainer {
 
     /* Driver Buttons */
     private final JoystickButton zeroGyro = new JoystickButton(driver, XboxController.Button.kX.value);
+
+    private final JoystickButton armDown = new JoystickButton(driver, XboxController.Button.kB.value);
+
     private final JoystickButton robotCentric = new JoystickButton(driver, XboxController.Button.kA.value);
     private final JoystickButton increaseSpeed = new JoystickButton(driver, XboxController.Button.kRightBumper.value);
     private final JoystickButton decreaseSpeed = new JoystickButton(driver, XboxController.Button.kLeftBumper.value);
@@ -45,6 +48,7 @@ public class RobotContainer {
 
     /* Subsystems */
     private final Swerve s_Swerve = new Swerve();
+    private final Arm arm = new Arm();
     private Vision vision;
 
 
@@ -75,6 +79,9 @@ public class RobotContainer {
     private void configureButtonBindings() {
         /* Driver Buttons */
         zeroGyro.onTrue(new InstantCommand(() -> s_Swerve.zeroGyro()));
+
+        armDown.onTrue(new InstantCommand(() -> arm.run()));
+
         increaseSpeed.onTrue(new InstantCommand(() -> s_Swerve.increaseSpeed()));
         decreaseSpeed.onTrue(new InstantCommand(() -> s_Swerve.decreaseSpeed()));
         runTrajectory.onTrue(new MoveToPosition(s_Swerve, vision));
