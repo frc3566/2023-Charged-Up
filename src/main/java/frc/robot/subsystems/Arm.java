@@ -8,19 +8,20 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 public class Arm extends SubsystemBase {
-    private CANSparkMax wench;
+    private CANSparkMax boomWench;
+    private CANSparkMax telescopingWench;
     private boolean on = false;
 
     public Arm() {
-        wench = new CANSparkMax(Constants.ArmConstants.wenchID, MotorType.kBrushless);
+        boomWench = new CANSparkMax(Constants.ArmConstants.boomWenchID, MotorType.kBrushless);
     }
 
     public void run() {
         if (on) {
-            wench.stopMotor();
+            boomWench.stopMotor();
             on = false;
         } else {
-            wench.set(0.2);
+            boomWench.set(0.2);
             on = true;
         }
     }

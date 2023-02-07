@@ -57,7 +57,8 @@ public final class Constants {
     }
 
     public static class ArmConstants {
-        public static final int wenchID = 21;
+        public static final int boomWenchID = 21;
+        public static final int telescopingWenchID = 30;
     }
 
     /* LENGTH > WIDTH */
