@@ -35,7 +35,7 @@ public class RobotContainer {
     public static double speedCoefficient = 1.0;
 
     /* Driver Buttons */
-    // private final JoystickButton zeroGyro = new JoystickButton(driver, XboxController.Button.kX.value);
+    private final JoystickButton zeroGyro = new JoystickButton(driver, XboxController.Button.kX.value);
 
     private final POVButton boomWenchUp = new POVButton(driver, 0);
     private final POVButton boomWenchDown = new POVButton(driver, 180);
@@ -79,7 +79,7 @@ public class RobotContainer {
      */
     private void configureButtonBindings() {
         /* Driver Buttons */
-        // zeroGyro.onTrue(new InstantCommand(() -> s_Swerve.zeroGyro()));
+        zeroGyro.onTrue(new InstantCommand(() -> s_Swerve.zeroGyro()));
 
         boomWenchUp.onTrue(new InstantCommand(() -> arm.boomWenchUp()));
         boomWenchUp.onFalse(new InstantCommand(() -> arm.boomWenchOff()));
