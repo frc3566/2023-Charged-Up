@@ -16,7 +16,7 @@ public class TelescopingArm extends SubsystemBase{
 
     private double armZero;
 
-    private double maxPos, minPos;
+    private double armMax;
     public TelescopingArm(){
         arm.setInverted(false);
         arm.setClosedLoopRampRate(0.3);
@@ -34,18 +34,15 @@ public class TelescopingArm extends SubsystemBase{
         return;
         }
 
-        double tar = encoder.getPosition() + 180;
-
-        armPID.setReference(tar, ControlType.kPosition);
-
-        isExtended = true;
+        arm.set(0.2);
+        if(encoder.getPosition()>=armMax) isExtended=true;
     }
     public void fullyExtend(){
         if(isExtended){
             return;
         }
     
-            double tar = maxPos;
+            double tar = armMax;
     
             armPID.setReference(tar, ControlType.kPosition);
     
@@ -56,26 +53,23 @@ public class TelescopingArm extends SubsystemBase{
           return;
         }
     
-        double tar = encoder.getPosition() - 180;
-
-        armPID.setReference(tar, ControlType.kPosition);
-    
-        isExtended = false;
+        arm.set(-0.2);
+        if(encoder.getPosition()<=armZero) isExtended=false;
     }
     public void setZero(){
         armZero = encoder.getPosition();
     }
-    public void setMinPos(double minP){
-        minPos = minP;
+    public void setArmZero(double minP){
+        armZero = minP;
     }
     public void setMaxPos(double maxP){
-        maxPos = maxP;
+        armMax = maxP;
     }
-    public double getMinPos(){
-        return minPos;
+    public double getArmZero(){
+        return armZero;
     }
     public double getMaxPos(){
-        return maxPos;
+        return armMax;
     }
     public double getPos(){
         return encoder.getPosition();
