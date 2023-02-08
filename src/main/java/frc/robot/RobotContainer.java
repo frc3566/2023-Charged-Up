@@ -36,17 +36,15 @@ public class RobotContainer {
 
     /* Driver Buttons */
     private final JoystickButton zeroGyro = new JoystickButton(driver, XboxController.Button.kX.value);
-
-    private final POVButton boomWenchUp = new POVButton(driver, 0);
-    private final POVButton boomWenchDown = new POVButton(driver, 180);
-    private final POVButton telescopingWenchIn = new POVButton(driver, 90);
-    private final POVButton telescopingWenchOut = new POVButton(driver, 270);
-
     private final JoystickButton robotCentric = new JoystickButton(driver, XboxController.Button.kA.value);
     private final JoystickButton increaseSpeed = new JoystickButton(driver, XboxController.Button.kRightBumper.value);
     private final JoystickButton decreaseSpeed = new JoystickButton(driver, XboxController.Button.kLeftBumper.value);
     private final JoystickButton runTrajectory = new JoystickButton(driver, XboxController.Button.kY.value);
 
+    private final POVButton boomWenchUp = new POVButton(driver, 0);
+    private final POVButton boomWenchDown = new POVButton(driver, 180);
+    private final POVButton telescopingWenchIn = new POVButton(driver, 90);
+    private final POVButton telescopingWenchOut = new POVButton(driver, 270);
     /* Subsystems */
     private final Swerve s_Swerve = new Swerve();
     private final Arm arm = new Arm();
