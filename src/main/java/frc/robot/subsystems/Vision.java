@@ -90,6 +90,7 @@ public class Vision extends SubsystemBase {
         Translation2d end = transform.getTranslation().toTranslation2d().minus(new Translation2d(0.5, 0)).times(coefficient);
 
         /* Pose2d start, List<Translation2D> pathPoints, Pose2d end, config */
+        //TODO: Fix Rotation2d of the end pos
         return Optional.of(TrajectoryGenerator.generateTrajectory(
             new Pose2d(0, 0, new Rotation2d(0)),
             List.of(end.div(2)),
