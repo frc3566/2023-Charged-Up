@@ -5,19 +5,15 @@ import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.Timer;
 
-public Solenoid SolenoidPCM1;
-public Solenoid SolenoidPCM2;
-
-
-public class ExampleSubsystem extends SubsystemBase {
+public class Intake extends SubsystemBase {
   /** Creates a new ExampleSubsystem. */
     enum intakeState{nothing, cone, cube};
     public intakeState State;
-
-  public IntakeSubsystem() {
-    State = intakeState.nothing;
     Solenoid SolenoidPCM1 = new Solenoid(PneumaticsModuleType.CTREPCM, 0);
     Solenoid SolenoidPCM2 = new Solenoid(PneumaticsModuleType.CTREPCM, 1);
+
+  public void IntakeSubsystem() {
+    State = intakeState.nothing;
   }
 
   public void open() {   
