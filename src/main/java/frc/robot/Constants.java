@@ -56,6 +56,11 @@ public final class Constants {
         }
     }
 
+    public static class ArmConstants {
+        public static final int boomWenchID = 21;
+        public static final int telescopingWenchID = 30;
+    }
+
     /* LENGTH > WIDTH */
     public static class FieldConstants {
         public static final double LENGTH = Units.inchesToMeters(54*12 + 3.25); 
