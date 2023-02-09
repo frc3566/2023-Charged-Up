@@ -62,8 +62,7 @@ public final class Constants {
     }
 
     public static class ElevatorConstants{
-        public static final int lift1ID = 0;
-        public static final int lift2ID = 0;
+        public static final int liftID = 0;
         public static final int extension1ID = 0;
         public static final int extension2ID = 0;
     }

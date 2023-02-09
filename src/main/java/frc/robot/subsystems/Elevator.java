@@ -11,14 +11,12 @@ import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 public class Elevator extends SubsystemBase{
-    private CANSparkMax lift1;
-    private CANSparkMax lift2;
+    private CANSparkMax lift;
     private CANSparkMax extension1;
     private CANSparkMax extension2;
 
     public Elevator(){
-        lift1 = new CANSparkMax(Constants.ElevatorConstants.lift1ID, MotorType.kBrushless);
-        lift2 = new CANSparkMax(Constants.ElevatorConstants.lift2ID, MotorType.kBrushless);
+        lift = new CANSparkMax(Constants.ElevatorConstants.liftID, MotorType.kBrushless);
         extension1 = new CANSparkMax(Constants.ElevatorConstants.extension1ID, MotorType.kBrushless);
         extension2 = new CANSparkMax(Constants.ElevatorConstants.extension2ID, MotorType.kBrushless);
     }
@@ -27,18 +25,15 @@ public class Elevator extends SubsystemBase{
     }
 
     public void ElevatorUp() {
-        lift1.set(0.2);
-        lift2.set(0.2);
+        lift.set(0.2);
     }
 
     public void ElevatorDown() {
-        lift1.set(-0.2);
-        lift2.set(-0.2);
+        lift.set(-0.2);
     }
 
     public void ElevatorOff() {
-        lift1.stopMotor();
-        lift2.stopMotor();
+        lift.stopMotor();
     }
 
     public void ElevatorExtend() {
