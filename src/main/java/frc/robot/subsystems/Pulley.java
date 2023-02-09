@@ -10,13 +10,13 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
-public class Arm extends SubsystemBase {
+public class Pulley extends SubsystemBase {
     private CANSparkMax boomWench;
     private CANSparkMax telescopingWench;
     private boolean onB = false;
     private boolean onT = false;
 
-    public Arm() {
+    public Pulley() {
         boomWench = new CANSparkMax(Constants.ArmConstants.boomWenchID, MotorType.kBrushless);
         telescopingWench = new CANSparkMax(Constants.ArmConstants.telescopingWenchID, MotorType.kBrushless);
     }

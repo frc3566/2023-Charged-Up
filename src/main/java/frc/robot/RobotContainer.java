@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.POVButton;
 
 import java.io.IOException;
 
@@ -44,16 +45,18 @@ public class RobotContainer {
     private final JoystickButton contractArm = new JoystickButton(armJoystick, XboxController.Button.kY.value);
     private final JoystickButton fullyExtend = new JoystickButton(armJoystick, XboxController.Button.kA.value);
 
-    /* Trajectory */
-    private static Trajectory teleopTrajectory = null;
-
+    private final POVButton boomWenchUp = new POVButton(driver, 0);
+    private final POVButton boomWenchDown = new POVButton(driver, 180);
+    private final POVButton telescopingWenchIn = new POVButton(driver, 90);
+    private final POVButton telescopingWenchOut = new POVButton(driver, 270);
     /* Subsystems */
     private final Swerve s_Swerve = new Swerve();
+    private final Pulley arm = new Pulley();
     private Vision vision;
     private TelescopingArm teleArm = new TelescopingArm();
 
 
-    /** The container for the robot. Contains subsystems, OI devices, and commands. 
+    /* The container for the robot. Contains subsystems, OI devices, and commands. 
      * @throws IOException*/
     public RobotContainer() throws IOException {
         s_Swerve.setDefaultCommand(
@@ -80,6 +83,19 @@ public class RobotContainer {
     private void configureButtonBindings() {
         /* Driver Buttons */
         zeroGyro.onTrue(new InstantCommand(() -> s_Swerve.zeroGyro()));
+
+        boomWenchUp.onTrue(new InstantCommand(() -> arm.boomWenchUp()));
+        boomWenchUp.onFalse(new InstantCommand(() -> arm.boomWenchOff()));
+
+        boomWenchDown.onTrue(new InstantCommand(() -> arm.boomWenchDown()));
+        boomWenchDown.onFalse(new InstantCommand(() -> arm.boomWenchOff()));
+
+        telescopingWenchOut.onTrue(new InstantCommand(() -> arm.telescopingWenchOut()));
+        telescopingWenchOut.onFalse(new InstantCommand(() -> arm.telescopingWenchOff()));
+
+        telescopingWenchIn.onTrue(new InstantCommand(() -> arm.telescopingWenchIn()));
+        telescopingWenchIn.onFalse(new InstantCommand(() -> arm.telescopingWenchOff()));
+
         increaseSpeed.onTrue(new InstantCommand(() -> s_Swerve.increaseSpeed()));
         decreaseSpeed.onTrue(new InstantCommand(() -> s_Swerve.decreaseSpeed()));
         runTrajectory.onTrue(new MoveToPosition(s_Swerve, vision));
