@@ -61,6 +61,12 @@ public final class Constants {
         public static final int telescopingWenchID = 30;
     }
 
+    public static class ElevatorConstants{
+        public static final int liftID = 0;
+        public static final int extension1ID = 0;
+        public static final int extension2ID = 0;
+    }
+
     /* LENGTH > WIDTH */
     public static class FieldConstants {
         public static final double LENGTH = Units.inchesToMeters(54*12 + 3.25); 
