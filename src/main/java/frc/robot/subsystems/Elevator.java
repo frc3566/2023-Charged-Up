@@ -19,8 +19,8 @@ public class Elevator extends SubsystemBase{
     public Elevator(){
         lift1 = new CANSparkMax(Constants.ElevatorConstants.lift1ID, MotorType.kBrushless);
         lift2 = new CANSparkMax(Constants.ElevatorConstants.lift2ID, MotorType.kBrushless);
-        extension1 = new CANSparkMax(Constants.ElevatorConstants.entension1ID, MotorType.kBrushless);
-        extension2 = new CANSparkMax(Constants.ElevatorConstants.entension2ID, MotorType.kBrushless);
+        extension1 = new CANSparkMax(Constants.ElevatorConstants.extension1ID, MotorType.kBrushless);
+        extension2 = new CANSparkMax(Constants.ElevatorConstants.extension2ID, MotorType.kBrushless);
     }
     
     public void run() {
