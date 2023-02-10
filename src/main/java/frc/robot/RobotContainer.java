@@ -53,7 +53,7 @@ public class RobotContainer {
     private final Swerve s_Swerve = new Swerve();
     private final Pulley arm = new Pulley();
     private Vision vision;
-    private TelescopingArm teleArm = new TelescopingArm();
+    private Arm arm;
 
 
     /* The container for the robot. Contains subsystems, OI devices, and commands. 
@@ -72,6 +72,8 @@ public class RobotContainer {
         vision = new Vision();
         // Configure the button bindings
         configureButtonBindings();
+        if(UseElevator) arm = new Elevator();
+        else arm = new TelescopingArm();
     }
 
     /**
@@ -99,9 +101,9 @@ public class RobotContainer {
         increaseSpeed.onTrue(new InstantCommand(() -> s_Swerve.increaseSpeed()));
         decreaseSpeed.onTrue(new InstantCommand(() -> s_Swerve.decreaseSpeed()));
         runTrajectory.onTrue(new MoveToPosition(s_Swerve, vision));
-        extendArm.onTrue(new InstantCommand(()->teleArm.extend()));
-        contractArm.onTrue(new InstantCommand(()->teleArm.contract()));
-        fullyExtend.onTrue(new InstantCommand(()->teleArm.fullyExtend()));
+        extendArm.onTrue(new InstantCommand(()->arm.Extend()));
+        contractArm.onTrue(new InstantCommand(()->arm.Contract()));
+        fullyExtend.onTrue(new InstantCommand(()->arm.fullyExtend()));
     }
     
 

@@ -204,4 +204,8 @@ public final class Constants {
 
         public static final double COEFFICIENT = 1.2;
     }
+
+    public static final class FlexConstants {
+        public static boolean UseElevator = false;
+    }
 }

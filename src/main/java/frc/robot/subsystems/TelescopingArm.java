@@ -8,7 +8,7 @@ import com.revrobotics.CANSparkMax.ControlType;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
-public class TelescopingArm extends Flex{
+public class TelescopingArm extends Arm{
     private CANSparkMax arm = new CANSparkMax(30, MotorType.kBrushless);
     private RelativeEncoder encoder;
     private boolean isExtended;
@@ -65,7 +65,7 @@ public class TelescopingArm extends Flex{
     public void setArmZero(double minP){
         armZero = minP;
     }
-    public void setMaxPos(double maxP){
+    public void setArmMax(double maxP){
         armMax = maxP;
     }
     public double getArmZero(){

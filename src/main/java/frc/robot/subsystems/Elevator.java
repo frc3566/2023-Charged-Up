@@ -10,10 +10,12 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
-public class Elevator extends Flex{
+public class Elevator extends Arm{
     private CANSparkMax lift;
     private CANSparkMax extension1;
     private CANSparkMax extension2;
+    private boolean isExtend;
+    private double elevatorMax, elevatorZero;
 
     public Elevator(){
         lift = new CANSparkMax(Constants.ElevatorConstants.liftID, MotorType.kBrushless);
@@ -45,9 +47,29 @@ public class Elevator extends Flex{
         extension2.set(-0.2);
     }
 
+    public void fullyExtend(){
+        if(isExtended){
+            return;
+        }
+    
+            double tar = elevatorMax;
+    
+            armPID.setReference(tar, ControlType.kPosition);
+    
+            isExtended = true;
+    }
+
     public void ElevatorExtensionOff() {
         extension1.stopMotor();
         extension2.stopMotor();
+    }
+
+    public void setArmZero(double eleZero){
+        elevatorZero = eleZero;
+    }
+
+    public void setArmMax(double eleMax){
+        elevatorMax = eleMax;
     }
     
 }

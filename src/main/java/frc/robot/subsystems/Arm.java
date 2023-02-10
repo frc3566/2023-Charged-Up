@@ -10,7 +10,7 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
-abstract class Flex extends SubsystemBase{
+abstract class Arm extends SubsystemBase{
 
     public void Up() {
         
@@ -21,17 +21,26 @@ abstract class Flex extends SubsystemBase{
     }
 
     public void Off() {
-        lift.stopMotor();
+        
     }
 
     public void Extend() {
         
     }
+
+    public void fullyExtend(){
+
+    }
+
     public void Contract() {
         
     }
 
-    public void ElevatorExtensionOff() {
+    public void setArmZero(){
+
+    }
+
+    public void setArmMax(){
         
     }
 }
