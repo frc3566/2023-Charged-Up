@@ -8,7 +8,7 @@ import com.revrobotics.CANSparkMax.ControlType;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
-public class TelescopingArm extends SubsystemBase{
+public class TelescopingArm extends Flex{
     private CANSparkMax arm = new CANSparkMax(30, MotorType.kBrushless);
     private RelativeEncoder encoder;
     private boolean isExtended;
@@ -29,7 +29,7 @@ public class TelescopingArm extends SubsystemBase{
     public void setPower(double power){
         arm.set(power);
     }
-    public void extend(){
+    public void Extend(){
         if(isExtended){
         return;
         }
@@ -48,13 +48,16 @@ public class TelescopingArm extends SubsystemBase{
     
             isExtended = true;
     }
-    public void contract(){
+    public void Contract(){
         if(!isExtended){
           return;
         }
     
         arm.set(-0.2);
         if(encoder.getPosition()<=armZero) isExtended=false;
+    }
+    public void Off(){
+        arm.stopMotor();
     }
     public void setZero(){
         armZero = encoder.getPosition();

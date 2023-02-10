@@ -10,7 +10,7 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
-public class Pulley extends SubsystemBase {
+public class Pulley extends Flex {
     private CANSparkMax boomWench;
     private CANSparkMax telescopingWench;
     private boolean onB = false;
@@ -24,26 +24,15 @@ public class Pulley extends SubsystemBase {
     public void run() {
     }
 
-    public void boomWenchUp() {
+    public void Up() {
         boomWench.set(0.2);
     }
 
-    public void boomWenchDown() {
+    public void Down() {
         boomWench.set(-0.2);
     }
 
-    public void boomWenchOff() {
+    public void Off() {
         boomWench.stopMotor();
-    }
-
-    public void telescopingWenchOut() {
-        telescopingWench.set(-0.2);
-    }
-    public void telescopingWenchIn() {
-        telescopingWench.set(0.2);
-    }
-
-    public void telescopingWenchOff() {
-        telescopingWench.stopMotor();
     }
 }
