@@ -51,7 +51,7 @@ public class RobotContainer {
     private final POVButton telescopingWenchOut = new POVButton(driver, 270);
     /* Subsystems */
     private final Swerve s_Swerve = new Swerve();
-    private final Pulley arm = new Pulley();
+    private final Pulley pulley = new Pulley();
     private Vision vision;
     private Arm arm;
 
@@ -86,17 +86,17 @@ public class RobotContainer {
         /* Driver Buttons */
         zeroGyro.onTrue(new InstantCommand(() -> s_Swerve.zeroGyro()));
 
-        boomWenchUp.onTrue(new InstantCommand(() -> arm.boomWenchUp()));
-        boomWenchUp.onFalse(new InstantCommand(() -> arm.boomWenchOff()));
+        boomWenchUp.onTrue(new InstantCommand(() -> pulley.boomWenchUp()));
+        boomWenchUp.onFalse(new InstantCommand(() -> pulley.boomWenchOff()));
 
-        boomWenchDown.onTrue(new InstantCommand(() -> arm.boomWenchDown()));
-        boomWenchDown.onFalse(new InstantCommand(() -> arm.boomWenchOff()));
+        boomWenchDown.onTrue(new InstantCommand(() -> pulley.boomWenchDown()));
+        boomWenchDown.onFalse(new InstantCommand(() -> pulley.boomWenchOff()));
 
-        telescopingWenchOut.onTrue(new InstantCommand(() -> arm.telescopingWenchOut()));
-        telescopingWenchOut.onFalse(new InstantCommand(() -> arm.telescopingWenchOff()));
+        telescopingWenchOut.onTrue(new InstantCommand(() -> pulley.telescopingWenchOut()));
+        telescopingWenchOut.onFalse(new InstantCommand(() -> pulley.telescopingWenchOff()));
 
-        telescopingWenchIn.onTrue(new InstantCommand(() -> arm.telescopingWenchIn()));
-        telescopingWenchIn.onFalse(new InstantCommand(() -> arm.telescopingWenchOff()));
+        telescopingWenchIn.onTrue(new InstantCommand(() -> pulley.telescopingWenchIn()));
+        telescopingWenchIn.onFalse(new InstantCommand(() -> pulley.telescopingWenchOff()));
 
         increaseSpeed.onTrue(new InstantCommand(() -> s_Swerve.increaseSpeed()));
         decreaseSpeed.onTrue(new InstantCommand(() -> s_Swerve.decreaseSpeed()));
