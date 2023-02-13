@@ -30,7 +30,8 @@ public class DisplayVisionDataCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    SmartDashboard.putNumberArray("Robot position", this.visionSubsystem.getRobotPosition());
+    SmartDashboard.putNumberArray("Distance to reflective tape", this.visionSubsystem.getDistToReflectiveTape());
+    SmartDashboard.putNumberArray("Yaw to reflective tape", this.visionSubsystem.getYawToReflectiveTape());
   }
 
   // Called once the command ends or is interrupted.
