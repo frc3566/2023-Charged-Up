@@ -41,13 +41,13 @@ public class RobotContainer {
     private final JoystickButton decreaseSpeed = new JoystickButton(driver, XboxController.Button.kLeftBumper.value);
     private final JoystickButton runTrajectory = new JoystickButton(driver, XboxController.Button.kY.value);
 
-    private final POVButton boomWenchUp = new POVButton(driver, 0);
-    private final POVButton boomWenchDown = new POVButton(driver, 180);
-    private final POVButton telescopingWenchIn = new POVButton(driver, 90);
-    private final POVButton telescopingWenchOut = new POVButton(driver, 270);
+    private final POVButton ElevatorUp = new POVButton(driver, 0);
+    private final POVButton ElevatorDown = new POVButton(driver, 180);
+    private final POVButton ElevatorExtend = new POVButton(driver, 90);
+    private final POVButton ElevatorContract = new POVButton(driver, 270);
     /* Subsystems */
     private final Swerve s_Swerve = new Swerve();
-    private final Arm arm = new Arm();
+    private final Elevator elevator = new Elevator();
     private Vision vision;
 
 
@@ -79,17 +79,17 @@ public class RobotContainer {
         /* Driver Buttons */
         zeroGyro.onTrue(new InstantCommand(() -> s_Swerve.zeroGyro()));
 
-        boomWenchUp.onTrue(new InstantCommand(() -> arm.boomWenchUp()));
-        boomWenchUp.onFalse(new InstantCommand(() -> arm.boomWenchOff()));
+        ElevatorUp.onTrue(new InstantCommand(() -> elevator.ElevatorUp()));
+        ElevatorUp.onFalse(new InstantCommand(() -> elevator.ElevatorOff()));
 
-        boomWenchDown.onTrue(new InstantCommand(() -> arm.boomWenchDown()));
-        boomWenchDown.onFalse(new InstantCommand(() -> arm.boomWenchOff()));
+        ElevatorDown.onTrue(new InstantCommand(() -> elevator.ElevatorDown()));
+        ElevatorDown.onFalse(new InstantCommand(() -> elevator.ElevatorOff()));
 
-        telescopingWenchOut.onTrue(new InstantCommand(() -> arm.telescopingWenchOut()));
-        telescopingWenchOut.onFalse(new InstantCommand(() -> arm.telescopingWenchOff()));
+        ElevatorExtend.onTrue(new InstantCommand(() -> elevator.ElevatorExtend()));
+        ElevatorExtend.onFalse(new InstantCommand(() -> elevator.ElevatorExtensionOff()));
 
-        telescopingWenchIn.onTrue(new InstantCommand(() -> arm.telescopingWenchIn()));
-        telescopingWenchIn.onFalse(new InstantCommand(() -> arm.telescopingWenchOff()));
+        ElevatorContract.onTrue(new InstantCommand(() -> elevator.ElevatorContract()));
+        ElevatorContract.onFalse(new InstantCommand(() -> elevator.ElevatorExtensionOff()));
 
         increaseSpeed.onTrue(new InstantCommand(() -> s_Swerve.increaseSpeed()));
         decreaseSpeed.onTrue(new InstantCommand(() -> s_Swerve.decreaseSpeed()));
