@@ -34,6 +34,7 @@ replay_pid*
 !gradle-wrapper.properties
 
 # MacOS
+.gradle/*
 .icloud
 .DS_Store
 .gradle/7.6/checksums/checksums.lock
