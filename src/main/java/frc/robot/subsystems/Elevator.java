@@ -6,16 +6,19 @@ import frc.robot.RobotContainer;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import com.ctre.phoenix.motorcontrol.MotorCommutation;
+import com.revrobotics.RelativeEncoder;
+import com.revrobotics.SparkMaxPIDController;
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMax.ControlType;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
-public class Elevator extends Arm{
+public class Elevator extends SubsystemBase{
     private CANSparkMax lift;
+    private RelativeEncoder encoder;
     private CANSparkMax extension1;
     private CANSparkMax extension2;
-    private boolean isExtend;
-    private double elevatorMax, elevatorZero;
+    private SparkMaxPIDController armPID;
 
     public Elevator(){
         lift = new CANSparkMax(Constants.ElevatorConstants.liftID, MotorType.kBrushless);
@@ -26,50 +29,35 @@ public class Elevator extends Arm{
     public void run() {
     }
 
-    public void Up() {
+    public void ElevatorUp() {
         lift.set(0.2);
     }
 
-    public void Down() {
+    public void TarPickUp(){
+        armPID.setReference(Constants.ElevatorConstants.tarHeight, ControlType.kPosition);
+
+    }
+
+    public void ElevatorDown() {
         lift.set(-0.2);
     }
 
-    public void Off() {
+    public void ElevatorOff() {
         lift.stopMotor();
     }
 
-    public void Extend() {
+    public void ElevatorExtend() {
         extension1.set(0.2);
         extension2.set(0.2);
     }
-    public void Contract() {
+    public void ElevatorContract() {
         extension1.set(-0.2);
         extension2.set(-0.2);
-    }
-
-    public void fullyExtend(){
-        if(isExtended){
-            return;
-        }
-    
-            double tar = elevatorMax;
-    
-            armPID.setReference(tar, ControlType.kPosition);
-    
-            isExtended = true;
     }
 
     public void ElevatorExtensionOff() {
         extension1.stopMotor();
         extension2.stopMotor();
-    }
-
-    public void setArmZero(double eleZero){
-        elevatorZero = eleZero;
-    }
-
-    public void setArmMax(double eleMax){
-        elevatorMax = eleMax;
     }
     
 }
