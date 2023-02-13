@@ -7,6 +7,9 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import com.ctre.phoenix.motorcontrol.MotorCommutation;
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMax.ControlType;
+import com.revrobotics.RelativeEncoder;
+import com.revrobotics.SparkMaxPIDController;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
@@ -14,6 +17,8 @@ public class Elevator extends SubsystemBase{
     private CANSparkMax lift;
     private CANSparkMax extension1;
     private CANSparkMax extension2;
+    private RelativeEncoder encoder;
+    private SparkMaxPIDController armPID;
 
     public Elevator(){
         lift = new CANSparkMax(Constants.ElevatorConstants.liftID, MotorType.kBrushless);
@@ -30,6 +35,10 @@ public class Elevator extends SubsystemBase{
 
     public void ElevatorDown() {
         lift.set(-0.2);
+    }
+
+    public void TarPickUp(){
+        armPID.setReference(Constants.ElevatorConstants.tarHeight, ControlType.kPosition);
     }
 
     public void ElevatorOff() {
