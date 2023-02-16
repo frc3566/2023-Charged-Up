@@ -37,8 +37,12 @@ public class Elevator extends SubsystemBase{
         lift.set(-0.2);
     }
 
-    public void TarPickUp(){
-        armPID.setReference(Constants.ElevatorConstants.tarHeight, ControlType.kPosition);
+    public void fullyDown(){
+        armPID.setReference(Constants.ElevatorConstants.maxHeight, ControlType.kPosition);
+    }
+
+    public void fullyUp(){
+        armPID.setReference(Constants.ElevatorConstants.minHeight, ControlType.kPosition);
     }
 
     public void ElevatorOff() {

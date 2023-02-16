@@ -65,6 +65,8 @@ public final class Constants {
         public static final int liftID = 0;
         public static final int extension1ID = 0;
         public static final int extension2ID = 0;
+        public static final double maxHeight = 5;
+        public static final double minHeight = 0;
     }
 
     /* LENGTH > WIDTH */
