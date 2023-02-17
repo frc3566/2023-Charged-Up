@@ -40,6 +40,8 @@ public class RobotContainer {
     private final JoystickButton increaseSpeed = new JoystickButton(driver, XboxController.Button.kRightBumper.value);
     private final JoystickButton decreaseSpeed = new JoystickButton(driver, XboxController.Button.kLeftBumper.value);
     private final JoystickButton runTrajectory = new JoystickButton(driver, XboxController.Button.kY.value);
+    private final JoystickButton intakeIn = new JoystickButton(driver, XboxController.Axis.kLeftTrigger.value);
+    private final JoystickButton intakeOut = new JoystickButton(driver, XboxController.Axis.kRightTrigger.value);
 
     private final POVButton ElevatorUp = new POVButton(driver, 0);
     private final POVButton ElevatorDown = new POVButton(driver, 180);
@@ -48,6 +50,7 @@ public class RobotContainer {
     /* Subsystems */
     private final Swerve s_Swerve = new Swerve();
     private final Elevator elevator = new Elevator();
+    private final Intake intake = new Intake();
     private Vision vision;
 
 
@@ -94,6 +97,9 @@ public class RobotContainer {
         increaseSpeed.onTrue(new InstantCommand(() -> s_Swerve.increaseSpeed()));
         decreaseSpeed.onTrue(new InstantCommand(() -> s_Swerve.decreaseSpeed()));
         runTrajectory.onTrue(new MoveToPosition(s_Swerve, vision));
+
+        intakeIn.onTrue(new InstantCommand(() -> intake.IntakeIn()));
+        intakeOut.onTrue(new InstantCommand(() -> intake.IntakeOut()));
     }
     
 
