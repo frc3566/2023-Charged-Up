@@ -67,6 +67,10 @@ public final class Constants {
         public static final int extension2ID = 20;
     }
 
+    public static class IntakeConstants{
+        public static final int intakeID = 0;
+    }
+
     /* LENGTH > WIDTH */
     public static class FieldConstants {
         public static final double LENGTH = Units.inchesToMeters(54*12 + 3.25); 
