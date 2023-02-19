@@ -43,12 +43,13 @@ public class RobotContainer {
     private final JoystickButton intakeIn = new JoystickButton(driver, XboxController.Axis.kLeftTrigger.value);
     private final JoystickButton intakeOut = new JoystickButton(driver, XboxController.Axis.kRightTrigger.value);
 
-    private final POVButton ElevatorUp = new POVButton(driver, 0);
-    private final POVButton ElevatorDown = new POVButton(driver, 180);
+    private final POVButton ArmUp = new POVButton(driver, 0);
+    private final POVButton ArmDown = new POVButton(driver, 180);
     private final POVButton ElevatorExtend = new POVButton(driver, 90);
     private final POVButton Elevatorcontract = new POVButton(driver, 270);
     /* Subsystems */
     private final Swerve s_Swerve = new Swerve();
+    private final Arm arm = new Arm();
     private final Elevator elevator = new Elevator();
     private final Intake intake = new Intake();
     private Vision vision;
@@ -82,24 +83,24 @@ public class RobotContainer {
         /* Driver Buttons */
         zeroGyro.onTrue(new InstantCommand(() -> s_Swerve.zeroGyro()));
 
-        ElevatorUp.onTrue(new InstantCommand(() -> elevator.ElevatorUp()));
-        ElevatorUp.onFalse(new InstantCommand(() -> elevator.ElevatorOff()));
+        ArmUp.onTrue(new InstantCommand(() -> arm.setPower(0.2)));
+        ArmUp.onFalse(new InstantCommand(() -> elevator.off()));
 
-        ElevatorDown.onTrue(new InstantCommand(() -> elevator.ElevatorDown()));
-        ElevatorDown.onFalse(new InstantCommand(() -> elevator.ElevatorOff()));
+        ArmDown.onTrue(new InstantCommand(() -> elevator.setPower(-0.2)));
+        ArmDown.onFalse(new InstantCommand(() -> elevator.off()));
 
-        ElevatorExtend.onTrue(new InstantCommand(() -> elevator.ElevatorExtend()));
-        ElevatorExtend.onFalse(new InstantCommand(() -> elevator.ElevatorExtensionOff()));
+        ElevatorExtend.onTrue(new InstantCommand(() -> elevator.setPower(0.2)));
+        ElevatorExtend.onFalse(new InstantCommand(() -> elevator.off()));
 
-        Elevatorcontract.onTrue(new InstantCommand(() -> elevator.ElevatorContract()));
-        Elevatorcontract.onFalse(new InstantCommand(() -> elevator.ElevatorExtensionOff()));
+        Elevatorcontract.onTrue(new InstantCommand(() -> elevator.setPower(-0.2)));
+        Elevatorcontract.onFalse(new InstantCommand(() -> elevator.off()));
 
         increaseSpeed.onTrue(new InstantCommand(() -> s_Swerve.increaseSpeed()));
         decreaseSpeed.onTrue(new InstantCommand(() -> s_Swerve.decreaseSpeed()));
         runTrajectory.onTrue(new MoveToPosition(s_Swerve, vision));
 
-        intakeIn.onTrue(new InstantCommand(() -> intake.IntakeIn()));
-        intakeOut.onTrue(new InstantCommand(() -> intake.IntakeOut()));
+        intakeIn.onTrue(new InstantCommand(() -> intake.setPower(0.2)));
+        intakeOut.onTrue(new InstantCommand(() -> intake.setPower(-0.2)));
     }
     
 

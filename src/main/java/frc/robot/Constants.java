@@ -57,14 +57,20 @@ public final class Constants {
     }
 
     public static class ArmConstants {
-        public static final int boomWenchID = 21;
-        public static final int telescopingWenchID = 30;
+        public static final int PULLEY_MOTOR_ID = 21;
+        public static final int CANCODER_ID = 0; //TODO
+        // public static final int telescopingWenchID = 30;
+        public static double FF = 0.0;
+        public static double kP = 0.1;
+        public static double kI = 0.0;
+        public static double kD = 0.05;
+        public static double TOLERANCE = 1;
     }
 
     public static class ElevatorConstants{
-        public static final int liftID = 18;
-        public static final int extension1ID = 19;
-        public static final int extension2ID = 20;
+        // public static final int liftID = 18;
+        public static int LEFT_MOTOR_ID = 19;
+        public static int RIGHT_MOTOR_ID = 20;
     }
 
     public static class IntakeConstants{
