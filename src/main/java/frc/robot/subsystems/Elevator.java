@@ -16,29 +16,29 @@ public class Elevator extends SubsystemBase{
     private SparkMaxPIDController PIDController;
 
     private double encoderZero;
-    private double fullLength = 1000; //TODO measure this
+    private double fullLength = 82; //TODO measure this
 
     public Elevator(){
         leadMotor = new CANSparkMax(Constants.ElevatorConstants.LEFT_MOTOR_ID, MotorType.kBrushless);
         leadMotor.setInverted(false);
 
         followMotor = new CANSparkMax(Constants.ElevatorConstants.RIGHT_MOTOR_ID, MotorType.kBrushless);
-        followMotor.setInverted(true);
-    
-        followMotor.follow(leadMotor);
+        followMotor.follow(leadMotor,true);
 
         encoder = leadMotor.getEncoder();
         encoder.setVelocityConversionFactor(1);
 
         PIDController = leadMotor.getPIDController();
-        PIDController.setP(0.3); //TODO tune these
+        PIDController.setP(0.2); //TODO tune these
         PIDController.setI(0);
         PIDController.setD(0.01);
 
         setBrake(true);
     }
     
-    public void run() {
+    public void periodic() {
+        // System.out.println(encoder.getPosition());
+        // setExtendtionPercentage(0.0);
     }
 
     public void setPower(double power) {

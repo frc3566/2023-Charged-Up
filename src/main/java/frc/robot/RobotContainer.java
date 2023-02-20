@@ -84,10 +84,10 @@ public class RobotContainer {
         zeroGyro.onTrue(new InstantCommand(() -> s_Swerve.zeroGyro()));
 
         ArmUp.onTrue(new InstantCommand(() -> arm.setPower(0.2)));
-        ArmUp.onFalse(new InstantCommand(() -> elevator.off()));
+        ArmUp.onFalse(new InstantCommand(() -> arm.off()));
 
-        ArmDown.onTrue(new InstantCommand(() -> elevator.setPower(-0.2)));
-        ArmDown.onFalse(new InstantCommand(() -> elevator.off()));
+        ArmDown.onTrue(new InstantCommand(() -> arm.setPower(-0.2)));
+        ArmDown.onFalse(new InstantCommand(() -> arm.off()));
 
         ElevatorExtend.onTrue(new InstantCommand(() -> elevator.setPower(0.2)));
         ElevatorExtend.onFalse(new InstantCommand(() -> elevator.off()));

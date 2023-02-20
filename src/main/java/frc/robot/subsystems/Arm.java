@@ -14,8 +14,9 @@ public class Arm extends SubsystemBase {
     private CANSparkMax motor;
     private PIDController pidController;
     WPI_CANCoder CANCoder;
-    double encoderMin, encoderMax;
+    double encoderMin = -1, encoderMax = 102;
     double tarAngle;
+    boolean isOpenLoop;
 
     double FF, kP, kD;
     // what are these for?
@@ -31,13 +32,19 @@ public class Arm extends SubsystemBase {
 
         pidController = new PIDController(Constants.ArmConstants.kP, Constants.ArmConstants.kI, Constants.ArmConstants.kD);
         pidController.setTolerance(Constants.ArmConstants.TOLERANCE);
+        isOpenLoop = false;
     }
 
-    public void run() {
+    public void periodic() {
         double power = pidController.calculate(CANCoder.getPosition(), tarAngle);
-        if(power != 0){
-            setPower(power);
+        System.out.println(power);
+        if(power != 0 && isOpenLoop == false){
+            // setPower(power);
         }       
+
+        if(CANCoder.getPosition()> encoderMax){
+            setPower(0);
+        }
     }
 
     public void setBrake(boolean isBrake){
@@ -46,13 +53,13 @@ public class Arm extends SubsystemBase {
     }
 
     public void setPower(double power) {
+        isOpenLoop = true;
         motor.set(power);
-        tarAngle = CANCoder.getPosition();
     }
 
-    public void setVoltage(double voltage) {
-        motor.set(voltage);
-        tarAngle = CANCoder.getPosition();
+    public void setVoltage(double voltage){
+        isOpenLoop = true;
+        motor.setVoltage(voltage);
     }
 
     public void setAngle(double tar){
@@ -65,6 +72,7 @@ public class Arm extends SubsystemBase {
 
     public void off() {
         motor.stopMotor();
+        isOpenLoop = false;
     }
 
 }
