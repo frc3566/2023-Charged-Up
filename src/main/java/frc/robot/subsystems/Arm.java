@@ -1,49 +1,78 @@
 package frc.robot.subsystems;
 
 import frc.robot.Constants;
-import frc.robot.RobotContainer;
-
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-import com.ctre.phoenix.motorcontrol.MotorCommutation;
+import com.ctre.phoenix.sensors.WPI_CANCoder;
+import com.ctre.phoenixpro.hardware.CANcoder;
 import com.revrobotics.CANSparkMax;
+import edu.wpi.first.math.controller.PIDController;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 public class Arm extends SubsystemBase {
-    private CANSparkMax boomWench;
-    private CANSparkMax telescopingWench;
-    private boolean onB = false;
-    private boolean onT = false;
+    private CANSparkMax motor;
+    private PIDController pidController;
+    WPI_CANCoder CANCoder;
+    double encoderMin = -1, encoderMax = 102;
+    double tarAngle;
+    boolean isOpenLoop;
+
+    double FF, kP, kD;
+    // what are these for?
+    // private boolean onB = false;
+    // private boolean onT = false;
 
     public Arm() {
-        boomWench = new CANSparkMax(Constants.ArmConstants.boomWenchID, MotorType.kBrushless);
-        telescopingWench = new CANSparkMax(Constants.ArmConstants.telescopingWenchID, MotorType.kBrushless);
+        motor = new CANSparkMax(Constants.ArmConstants.PULLEY_MOTOR_ID, MotorType.kBrushless);
+        CANCoder = new WPI_CANCoder(Constants.ArmConstants.CANCODER_ID, "rio");
+        setBrake(true);
+
+        tarAngle = CANCoder.getPosition();
+
+        pidController = new PIDController(Constants.ArmConstants.kP, Constants.ArmConstants.kI, Constants.ArmConstants.kD);
+        pidController.setTolerance(Constants.ArmConstants.TOLERANCE);
+        isOpenLoop = false;
     }
 
-    public void run() {
+    public void periodic() {
+        double power = pidController.calculate(CANCoder.getPosition(), tarAngle);
+        System.out.println(power);
+        if(power != 0 && isOpenLoop == false){
+            // setPower(power);
+        }       
+
+        if(CANCoder.getPosition()> encoderMax){
+            setPower(0);
+        }
     }
 
-    public void boomWenchUp() {
-        boomWench.set(0.2);
+    public void setBrake(boolean isBrake){
+        IdleMode sparkMode = isBrake? IdleMode.kBrake : IdleMode.kCoast;
+        motor.setIdleMode(sparkMode);
     }
 
-    public void boomWenchDown() {
-        boomWench.set(-0.2);
+    public void setPower(double power) {
+        isOpenLoop = true;
+        motor.set(power);
     }
 
-    public void boomWenchOff() {
-        boomWench.stopMotor();
+    public void setVoltage(double voltage){
+        isOpenLoop = true;
+        motor.setVoltage(voltage);
     }
 
-    public void telescopingWenchOut() {
-        telescopingWench.set(-0.2);
-    }
-    public void telescopingWenchIn() {
-        telescopingWench.set(0.2);
+    public void setAngle(double tar){
+        tarAngle = tar;
     }
 
-    public void telescopingWenchOff() {
-        telescopingWench.stopMotor();
+    public double getCANCoderPosition() {
+        return CANCoder.getPosition();
     }
+
+    public void off() {
+        motor.stopMotor();
+        isOpenLoop = false;
+    }
+
 }

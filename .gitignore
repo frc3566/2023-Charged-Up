@@ -1,5 +1,6 @@
 # Compiled class file
 *.class
+*.class.*
 
 # Log file
 *.log
@@ -18,34 +19,27 @@
 *.zip
 *.tar.gz
 *.rar
+*.lock
+*.bin
+*.probe
+.DS_Store
+.gradle/*
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
-hs_err_pid*
-replay_pid*
+# hs_err_pid*
+# replay_pid*
 
 # Avoid ignoring Gradle wrapper jar file (.jar files are usually ignored)
-!gradle-wrapper.jar
+# !gradle-wrapper.jar
 
 # Gradle
-.gradle
-**/build/
+# .gradle/*
+# **/build/
 
 # Avoid ignore Gradle wrappper properties
-!gradle-wrapper.properties
+# !gradle-wrapper.properties
 
 # MacOS
-.icloud
-.DS_Store
-.gradle/7.6/checksums/checksums.lock
-.gradle/7.6/checksums/md5-checksums.bin
-.gradle/7.6/checksums/sha1-checksums.bin
-*.lock
-.gradle/file-system.probe
-.gradle/7.6/checksums/checksums.lock
-.gradle/7.6/executionHistory/executionHistory.bin
-.gradle/7.6/executionHistory/executionHistory.lock
-.gradle/7.6/fileHashes/fileHashes.bin
-.gradle/7.6/fileHashes/fileHashes.lock
-.gradle/7.6/fileHashes/resourceHashesCache.bin
-.gradle/buildOutputCleanup/buildOutputCleanup.lock
-build/tmp/compileJava/previous-compilation-data.bin
+# .icloud
+# .DS_Store
+# build/tmp/compileJava/previous-compilation-data.bin
