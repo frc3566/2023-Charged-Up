@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 
 import java.io.IOException;
+import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.math.trajectory.Trajectory;
 
@@ -35,18 +36,19 @@ public class RobotContainer {
     public static double speedCoefficient = 1.0;
 
     /* Driver Buttons */
-    private final JoystickButton zeroGyro = new JoystickButton(driver, XboxController.Button.kX.value);
-    private final JoystickButton robotCentric = new JoystickButton(driver, XboxController.Button.kA.value);
-    private final JoystickButton increaseSpeed = new JoystickButton(driver, XboxController.Button.kRightBumper.value);
-    private final JoystickButton decreaseSpeed = new JoystickButton(driver, XboxController.Button.kLeftBumper.value);
-    private final JoystickButton runTrajectory = new JoystickButton(driver, XboxController.Button.kY.value);
-    private final JoystickButton intakeIn = new JoystickButton(driver, XboxController.Axis.kLeftTrigger.value);
-    private final JoystickButton intakeOut = new JoystickButton(driver, XboxController.Axis.kRightTrigger.value);
+    private final JoystickButton X = new JoystickButton(driver, XboxController.Button.kX.value);
+    private final JoystickButton Y = new JoystickButton(driver, XboxController.Button.kY.value);
+    private final JoystickButton A = new JoystickButton(driver, XboxController.Button.kA.value);
+    private final JoystickButton B = new JoystickButton(driver, XboxController.Button.kB.value);
+    private final JoystickButton RB = new JoystickButton(driver, XboxController.Button.kRightBumper.value);
+    private final JoystickButton LB = new JoystickButton(driver, XboxController.Button.kLeftBumper.value);
+    private final int LTAxis = XboxController.Axis.kLeftTrigger.value;
+    private final int RTAxis = XboxController.Axis.kRightTrigger.value;
+    private final POVButton DPadUp = new POVButton(driver, 0);
+    private final POVButton DPadDown = new POVButton(driver, 180);
+    private final POVButton DPadLeft = new POVButton(driver, 90);
+    private final POVButton DPadRight = new POVButton(driver, 270);
 
-    private final POVButton ArmUp = new POVButton(driver, 0);
-    private final POVButton ArmDown = new POVButton(driver, 180);
-    private final POVButton ElevatorExtend = new POVButton(driver, 90);
-    private final POVButton Elevatorcontract = new POVButton(driver, 270);
     /* Subsystems */
     private final Swerve s_Swerve = new Swerve();
     private final Arm arm = new Arm();
@@ -64,9 +66,11 @@ public class RobotContainer {
                 () -> -driver.getRawAxis(translationAxis), 
                 () -> -driver.getRawAxis(strafeAxis), 
                 () -> -driver.getRawAxis(rotationAxis), 
-                () -> robotCentric.getAsBoolean()
+                () -> A.getAsBoolean()
             )
         );
+
+        intake.setDefaultCommand(new IntakeControl(intake, () -> driver.getRawAxis(LTAxis), () -> driver.getRawAxis(RTAxis)));
 
         vision = new Vision();
         // Configure the button bindings
@@ -81,26 +85,25 @@ public class RobotContainer {
      */
     private void configureButtonBindings() {
         /* Driver Buttons */
-        zeroGyro.onTrue(new InstantCommand(() -> s_Swerve.zeroGyro()));
+        X.onTrue(new InstantCommand(() -> s_Swerve.zeroGyro()));
 
-        ArmUp.onTrue(new InstantCommand(() -> arm.setPower(0.2)));
-        ArmUp.onFalse(new InstantCommand(() -> arm.off()));
+        DPadUp.onTrue(new InstantCommand(() -> arm.setPower(0.2)));
+        DPadUp.onFalse(new InstantCommand(() -> arm.off()));
 
-        ArmDown.onTrue(new InstantCommand(() -> arm.setPower(-0.2)));
-        ArmDown.onFalse(new InstantCommand(() -> arm.off()));
+        DPadDown.onTrue(new InstantCommand(() -> arm.setPower(-0.2)));
+        DPadDown.onFalse(new InstantCommand(() -> arm.off()));
 
-        ElevatorExtend.onTrue(new InstantCommand(() -> elevator.setPower(0.2)));
-        ElevatorExtend.onFalse(new InstantCommand(() -> elevator.off()));
+        DPadLeft.onTrue(new InstantCommand(() -> elevator.setPower(0.2)));
+        DPadLeft.onFalse(new InstantCommand(() -> elevator.off()));
 
-        Elevatorcontract.onTrue(new InstantCommand(() -> elevator.setPower(-0.2)));
-        Elevatorcontract.onFalse(new InstantCommand(() -> elevator.off()));
+        DPadRight.onTrue(new InstantCommand(() -> elevator.setPower(-0.2)));
+        DPadRight.onFalse(new InstantCommand(() -> elevator.off()));
 
-        increaseSpeed.onTrue(new InstantCommand(() -> s_Swerve.increaseSpeed()));
-        decreaseSpeed.onTrue(new InstantCommand(() -> s_Swerve.decreaseSpeed()));
-        runTrajectory.onTrue(new MoveToPosition(s_Swerve, vision));
+        RB.onTrue(new InstantCommand(() -> s_Swerve.increaseSpeed()));
+        LB.onTrue(new InstantCommand(() -> s_Swerve.decreaseSpeed()));
+        Y.onTrue(new MoveToPosition(s_Swerve, vision));
 
-        intakeIn.onTrue(new InstantCommand(() -> intake.setPower(0.2)));
-        intakeOut.onTrue(new InstantCommand(() -> intake.setPower(-0.2)));
+        B.onTrue(new IntakePosition(arm, elevator));
     }
     
 

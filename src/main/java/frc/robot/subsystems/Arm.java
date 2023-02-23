@@ -14,7 +14,7 @@ public class Arm extends SubsystemBase {
     private CANSparkMax motor;
     private PIDController pidController;
     WPI_CANCoder CANCoder;
-    double encoderMin = -1, encoderMax = 102;
+    double encoderMin = 1, encoderMax = 102;
     double tarAngle;
     boolean isOpenLoop;
 
