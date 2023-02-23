@@ -22,10 +22,10 @@ public class IntakeControl extends CommandBase{
     public void execute() {
         intake.setPower(0);
         if(this.LT.getAsDouble() > 0.5){
-            intake.setPower(-0.2);
+            intake.setPower(-0.5);
         }
         if(this.RT.getAsDouble() > 0.5){
-            intake.setPower(0.2);
+            intake.setPower(0.5);
         }
     }
 }
