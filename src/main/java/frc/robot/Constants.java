@@ -74,7 +74,7 @@ public final class Constants {
     }
 
     public static class IntakeConstants{
-        public static final int intakeID = 0;
+        public static final int intakeID = 21;
     }
 
     /* LENGTH > WIDTH */
