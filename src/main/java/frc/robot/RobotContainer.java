@@ -27,7 +27,8 @@ import frc.robot.subsystems.*;
  */
 public class RobotContainer {
     /* Controllers */
-    private final Joystick driver = new Joystick(0);
+    private final Joystick driver1 = new Joystick(0);
+    private final Joystick driver2 = new Joystick(1);
 
     /* Drive Controls */
     private final int translationAxis = XboxController.Axis.kRightY.value;
@@ -36,18 +37,18 @@ public class RobotContainer {
     public static double speedCoefficient = 1.0;
 
     /* Driver Buttons */
-    private final JoystickButton X = new JoystickButton(driver, XboxController.Button.kX.value);
-    private final JoystickButton Y = new JoystickButton(driver, XboxController.Button.kY.value);
-    private final JoystickButton A = new JoystickButton(driver, XboxController.Button.kA.value);
-    private final JoystickButton B = new JoystickButton(driver, XboxController.Button.kB.value);
-    private final JoystickButton RB = new JoystickButton(driver, XboxController.Button.kRightBumper.value);
-    private final JoystickButton LB = new JoystickButton(driver, XboxController.Button.kLeftBumper.value);
+    private final JoystickButton X = new JoystickButton(driver1, XboxController.Button.kX.value);
+    private final JoystickButton Y = new JoystickButton(driver1, XboxController.Button.kY.value);
+    private final JoystickButton A = new JoystickButton(driver1, XboxController.Button.kA.value);
+    private final JoystickButton B = new JoystickButton(driver2, XboxController.Button.kB.value);
+    private final JoystickButton RB = new JoystickButton(driver1, XboxController.Button.kRightBumper.value);
+    private final JoystickButton LB = new JoystickButton(driver1, XboxController.Button.kLeftBumper.value);
     private final int LTAxis = XboxController.Axis.kLeftTrigger.value;
     private final int RTAxis = XboxController.Axis.kRightTrigger.value;
-    private final POVButton DPadUp = new POVButton(driver, 0);
-    private final POVButton DPadDown = new POVButton(driver, 180);
-    private final POVButton DPadLeft = new POVButton(driver, 90);
-    private final POVButton DPadRight = new POVButton(driver, 270);
+    private final POVButton DPadUp = new POVButton(driver2, 0);
+    private final POVButton DPadDown = new POVButton(driver2, 180);
+    private final POVButton DPadLeft = new POVButton(driver2, 90);
+    private final POVButton DPadRight = new POVButton(driver2, 270);
 
     /* Subsystems */
     private final Swerve s_Swerve = new Swerve();
@@ -63,14 +64,14 @@ public class RobotContainer {
         s_Swerve.setDefaultCommand(
             new TeleopSwerve(
                 s_Swerve, 
-                () -> -driver.getRawAxis(translationAxis), 
-                () -> -driver.getRawAxis(strafeAxis), 
-                () -> -driver.getRawAxis(rotationAxis), 
+                () -> -driver1.getRawAxis(translationAxis), 
+                () -> -driver1.getRawAxis(strafeAxis), 
+                () -> -driver1.getRawAxis(rotationAxis), 
                 () -> A.getAsBoolean()
             )
         );
 
-        intake.setDefaultCommand(new IntakeControl(intake, () -> driver.getRawAxis(LTAxis), () -> driver.getRawAxis(RTAxis)));
+        intake.setDefaultCommand(new IntakeControl(intake, () -> driver2.getRawAxis(LTAxis), () -> driver2.getRawAxis(RTAxis)));
 
         vision = new Vision();
         // Configure the button bindings
