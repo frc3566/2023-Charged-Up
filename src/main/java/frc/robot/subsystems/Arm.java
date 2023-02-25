@@ -37,7 +37,6 @@ public class Arm extends SubsystemBase {
 
     public void periodic() {
         double power = pidController.calculate(CANCoder.getPosition(), tarAngle);
-        System.out.println(power);
         if(power != 0 && isOpenLoop == false){
             // setPower(power);
         }       
