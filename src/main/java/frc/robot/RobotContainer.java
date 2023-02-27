@@ -88,16 +88,16 @@ public class RobotContainer {
         /* Driver Buttons */
         X.onTrue(new InstantCommand(() -> s_Swerve.zeroGyro()));
 
-        DPadUp.onTrue(new InstantCommand(() -> arm.setPower(0.2)));
+        DPadUp.onTrue(new InstantCommand(() -> arm.setPower(0.5)));
         DPadUp.onFalse(new InstantCommand(() -> arm.off()));
 
-        DPadDown.onTrue(new InstantCommand(() -> arm.setPower(-0.2)));
+        DPadDown.onTrue(new InstantCommand(() -> arm.setPower(-0.5)));
         DPadDown.onFalse(new InstantCommand(() -> arm.off()));
 
-        DPadLeft.onTrue(new InstantCommand(() -> elevator.setPower(0.2)));
+        DPadLeft.onTrue(new InstantCommand(() -> elevator.setPower(0.5)));
         DPadLeft.onFalse(new InstantCommand(() -> elevator.off()));
 
-        DPadRight.onTrue(new InstantCommand(() -> elevator.setPower(-0.2)));
+        DPadRight.onTrue(new InstantCommand(() -> elevator.setPower(-0.5)));
         DPadRight.onFalse(new InstantCommand(() -> elevator.off()));
 
         RB.onTrue(new InstantCommand(() -> s_Swerve.increaseSpeed()));

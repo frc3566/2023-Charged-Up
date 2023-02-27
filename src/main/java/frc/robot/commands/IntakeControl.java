@@ -20,12 +20,13 @@ public class IntakeControl extends CommandBase{
 
     @Override
     public void execute() {
-        intake.setPower(0);
-        if(this.LT.getAsDouble() > 0.5){
-            intake.setPower(-0.5);
+        double lt = LT.getAsDouble(), rt = RT.getAsDouble();
+        if (lt == 0 && rt == 0 || lt > 0 && rt > 0) {
+            intake.off();
+            return;
         }
-        if(this.RT.getAsDouble() > 0.5){
-            intake.setPower(0.5);
-        }
+
+        double power = Math.max(lt, rt) * ( lt > rt ? -1 : 1) / 2;
+        intake.setPower(power);
     }
 }
