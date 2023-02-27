@@ -44,6 +44,7 @@ public class Arm extends SubsystemBase {
         if(CANCoder.getPosition()> encoderMax){
             setPower(0);
         }
+        System.out.println(CANCoder.getPosition());
     }
 
     public void setBrake(boolean isBrake){
