@@ -14,7 +14,7 @@ public class Arm extends SubsystemBase {
     private CANSparkMax motor;
     private PIDController pidController;
     WPI_CANCoder CANCoder;
-    double encoderMin = 1, encoderMax = 102;
+    double encoderMin = -38, encoderMax = 60;
     double tarAngle;
     boolean isOpenLoop;
 
@@ -41,10 +41,16 @@ public class Arm extends SubsystemBase {
             // setPower(power);
         }       
 
-        if(CANCoder.getPosition()> encoderMax){
-            setPower(0);
+        if(CANCoder.getPosition() < encoderMin){
+            if(getPower() > 0){
+                setPower(0);
+            }
         }
         System.out.println(CANCoder.getPosition());
+    }
+
+    public double getPower(){
+        return motor.get();
     }
 
     public void setBrake(boolean isBrake){
