@@ -46,7 +46,6 @@ public class Arm extends SubsystemBase {
                 setPower(0);
             }
         }
-        System.out.println(CANCoder.getPosition());
     }
 
     public double getPower(){
