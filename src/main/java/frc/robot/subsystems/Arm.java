@@ -67,11 +67,13 @@ public class Arm extends SubsystemBase {
     public void setPower(double power) {
         isOpenLoop = true;
         motor.set(power);
+        tarAngle = CANCoder.getPosition();
     }
 
     public void setVoltage(double voltage){
         isOpenLoop = true;
         motor.setVoltage(voltage);
+        tarAngle = CANCoder.getPosition();
     }
 
     public void setAngle(double tar){
