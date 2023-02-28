@@ -25,6 +25,8 @@ public class Arm extends SubsystemBase {
 
     public Arm() {
         motor = new CANSparkMax(Constants.ArmConstants.PULLEY_MOTOR_ID, MotorType.kBrushless);
+        motor.setSmartCurrentLimit(30);
+        motor.setSecondaryCurrentLimit(20);
         CANCoder = new WPI_CANCoder(Constants.ArmConstants.CANCODER_ID, "rio");
         setBrake(true);
 
