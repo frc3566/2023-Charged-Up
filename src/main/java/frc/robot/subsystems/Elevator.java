@@ -2,6 +2,8 @@ package frc.robot.subsystems;
 
 import frc.robot.Constants;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+
+import com.ctre.phoenixpro.signals.System_StateValue;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkMaxPIDController;
@@ -41,10 +43,11 @@ public class Elevator extends SubsystemBase{
     }
     
     public void periodic() {
-        extension = (encoder.getPosition()-encoderZero) / fullLength;
-        if(extension > encoderZero + fullLength && leadMotor.get() > 0){
-            leadMotor.set(0);
-        }
+        extension = (encoder.getPosition()-encoderZero);
+        // if(extension > encoderZero + fullLength && leadMotor.get() > 0){
+        //     leadMotor.set(0);
+        // }
+        System.out.println(encoderZero+fullLength + " " + extension +" " + (extension > encoderZero + fullLength));
         // if(extension < encoderZero && leadMotor.get() < 0){
         //     leadMotor.set(0);
         // }
@@ -70,7 +73,7 @@ public class Elevator extends SubsystemBase{
     }
 
     public void setZero(){
-        encoderZero = encoder.getPosition();
+        encoderZero = 0;
     }
 
     public void setExtension(double factor) {

@@ -43,12 +43,15 @@ public class RobotContainer {
     private final JoystickButton B = new JoystickButton(driver2, XboxController.Button.kB.value);
     private final JoystickButton RB = new JoystickButton(driver1, XboxController.Button.kRightBumper.value);
     private final JoystickButton LB = new JoystickButton(driver1, XboxController.Button.kLeftBumper.value);
+    private final JoystickButton resetPivot = new JoystickButton(driver2, XboxController.Button.kY.value);
+    private final JoystickButton resetElevator = new JoystickButton(driver2, XboxController.Button.kB.value);
     private final int LTAxis = XboxController.Axis.kLeftTrigger.value;
     private final int RTAxis = XboxController.Axis.kRightTrigger.value;
     private final POVButton DPadUp = new POVButton(driver2, 0);
     private final POVButton DPadDown = new POVButton(driver2, 180);
     private final POVButton DPadLeft = new POVButton(driver2, 90);
     private final POVButton DPadRight = new POVButton(driver2, 270);
+
 
     /* Subsystems */
     private final Swerve s_Swerve = new Swerve();
@@ -107,6 +110,10 @@ public class RobotContainer {
         Y.onTrue(new InstantCommand(() -> arm.setAngle(0)));
 
         B.onTrue(new IntakePosition(arm, elevator));
+
+        resetPivot.onTrue(new InstantCommand(() -> arm.setCANcoderPosition()));
+
+        resetElevator.onTrue(new InstantCommand(() -> elevator.setZero()));
     }
     
 

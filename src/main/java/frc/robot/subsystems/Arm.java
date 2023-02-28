@@ -14,7 +14,7 @@ public class Arm extends SubsystemBase {
     private CANSparkMax motor;
     private PIDController pidController;
     WPI_CANCoder CANCoder;
-    double encoderMin = -10, encoderMax = 80;
+    double encoderMin = 0, encoderMax = 90;
     double tarAngle;
     boolean isOpenLoop;
 
@@ -38,11 +38,14 @@ public class Arm extends SubsystemBase {
     }
 
     public void periodic() {
-        double power = -pidController.calculate(CANCoder.getPosition(), tarAngle);
-        System.out.println(power);
-        if(power != 0 && isOpenLoop == false){
-            motor.set(power);
-        }       
+        //No idea what this does, works fine without this code
+        // double power = -pidController.calculate(CANCoder.getPosition(), tarAngle);
+        // System.out.println(power);
+        // if(power != 0 && isOpenLoop == false){
+        //     motor.set(power);
+        // }       
+        
+        // System.out.println(CANCoder.getPosition());
 
         if(CANCoder.getPosition() < encoderMin){
             if(getPower() > 0){
@@ -78,6 +81,10 @@ public class Arm extends SubsystemBase {
     public void setAngle(double tar){
         tarAngle = tar;
         isOpenLoop = false;
+    }
+
+    public void setCANcoderPosition(){
+        CANCoder.setPosition(0);
     }
 
     public double getCANCoderPosition() {
