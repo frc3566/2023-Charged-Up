@@ -89,7 +89,7 @@ public class RobotContainer {
      */
     private void configureButtonBindings() {
         /* Driver Buttons */
-        X.onTrue(new ZeroSubsystems(s_Swerve));
+        X.onTrue(new ZeroSubsystems(s_Swerve, arm, elevator));
 
         DPadUp.onTrue(new InstantCommand(() -> arm.setPower(0.5)));
         DPadUp.onFalse(new InstantCommand(() -> arm.off()));
@@ -110,7 +110,7 @@ public class RobotContainer {
 
         B.onTrue(new IntakePosition(arm, elevator));
 
-        resetPivot.onTrue(new InstantCommand(() -> arm.setCANcoderPosition()));
+        resetPivot.onTrue(new InstantCommand(() -> arm.setZero()));
 
         resetElevator.onTrue(new InstantCommand(() -> elevator.setZero()));
     }

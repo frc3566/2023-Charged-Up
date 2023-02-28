@@ -28,9 +28,9 @@ public class Arm extends SubsystemBase {
         CANCoder = new WPI_CANCoder(Constants.ArmConstants.CANCODER_ID, "rio");
         setBrake(true);
 
-        tarAngle = CANCoder.getPosition();
+        // tarAngle = CANCoder.getPosition();
 
-        // tarAngle = 40;
+        // tarAngle = 0;
 
         // pidController = new PIDController(Constants.ArmConstants.kP, Constants.ArmConstants.kI, Constants.ArmConstants.kD);
         pidController = new PIDController(0.1, 0, 0);
@@ -40,7 +40,7 @@ public class Arm extends SubsystemBase {
     public void periodic() {
         double power = -pidController.calculate(CANCoder.getPosition(), tarAngle);
         if(power != 0 && isOpenLoop == false){
-            motor.set(power);
+            // motor.set(power);
         }             
 
         if(CANCoder.getPosition() < encoderMin){
@@ -81,8 +81,8 @@ public class Arm extends SubsystemBase {
         isOpenLoop = false;
     }
 
-    public void setCANcoderPosition(){
-        CANCoder.setPosition(0);
+    public void setZero(){
+        this.CANCoder.setPosition(0);
     }
 
     public double getCANCoderPosition() {
