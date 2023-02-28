@@ -22,9 +22,11 @@ public class Elevator extends SubsystemBase{
     public Elevator(){
         leadMotor = new CANSparkMax(Constants.ElevatorConstants.LEFT_MOTOR_ID, MotorType.kBrushless);
         leadMotor.setInverted(false);
+        leadMotor.setSmartCurrentLimit(20);
 
         followMotor = new CANSparkMax(Constants.ElevatorConstants.RIGHT_MOTOR_ID, MotorType.kBrushless);
         followMotor.follow(leadMotor,true);
+        followMotor.setSmartCurrentLimit(20);
 
         encoder = leadMotor.getEncoder();
         encoder.setVelocityConversionFactor(1);

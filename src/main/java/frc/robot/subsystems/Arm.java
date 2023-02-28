@@ -30,19 +30,27 @@ public class Arm extends SubsystemBase {
 
         tarAngle = CANCoder.getPosition();
 
-        pidController = new PIDController(Constants.ArmConstants.kP, Constants.ArmConstants.kI, Constants.ArmConstants.kD);
+        // tarAngle = 40;
+
+        // pidController = new PIDController(Constants.ArmConstants.kP, Constants.ArmConstants.kI, Constants.ArmConstants.kD);
+        pidController = new PIDController(0.1, 0, 0);
         pidController.setTolerance(Constants.ArmConstants.TOLERANCE);
-        isOpenLoop = false;
     }
 
     public void periodic() {
-        double power = pidController.calculate(CANCoder.getPosition(), tarAngle);
+        double power = -pidController.calculate(CANCoder.getPosition(), tarAngle);
+        System.out.println(power);
         if(power != 0 && isOpenLoop == false){
-            // setPower(power);
+            motor.set(power);
         }       
 
         if(CANCoder.getPosition() < encoderMin){
             if(getPower() > 0){
+                setPower(0);
+            }
+        }
+        if(CANCoder.getPosition() > encoderMax){
+            if(getPower() < 0){
                 setPower(0);
             }
         }
@@ -69,6 +77,7 @@ public class Arm extends SubsystemBase {
 
     public void setAngle(double tar){
         tarAngle = tar;
+        isOpenLoop = false;
     }
 
     public double getCANCoderPosition() {

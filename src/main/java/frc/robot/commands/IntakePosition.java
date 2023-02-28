@@ -29,14 +29,14 @@ public class IntakePosition extends CommandBase {
             if(arm.getPower() != 0 ){
                 elevator.setExtension(correction);
             }
-            System.out.println( "Elevator Correction: " + correction);
+            // System.out.println( "Elevator Correction: " + correction);
             if(elevator.getPower() > 0){
                 elevator.off();
             }
         }
-        System.out.println("Elevator Length: " + elevator.getLength());
-        System.out.println("Frame Extension: " + extension);
-        System.out.println("Theta: " + angle);
+        // System.out.println("Elevator Length: " + elevator.getLength());
+        // System.out.println("Frame Extension: " + extension);
+        // System.out.println("Theta: " + angle);
 
     }
 }
