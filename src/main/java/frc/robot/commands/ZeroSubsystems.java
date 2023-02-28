@@ -11,16 +11,14 @@ public class ZeroSubsystems extends CommandBase{
     Swerve swerve;
     Elevator elevator;
 
-    public ZeroSubsystems(Swerve swerve, Elevator elevator) {
+    public ZeroSubsystems(Swerve swerve) {
         this.swerve = swerve;
-        this.elevator = elevator;
 
-        addRequirements(swerve, elevator);
+        addRequirements(swerve);
     }
 
     @Override
     public void execute() {
-        elevator.setZero();
         swerve.zeroGyro();
     }
 }

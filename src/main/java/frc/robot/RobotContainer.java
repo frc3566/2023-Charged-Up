@@ -90,7 +90,7 @@ public class RobotContainer {
      */
     private void configureButtonBindings() {
         /* Driver Buttons */
-        X.onTrue(new ZeroSubsystems(s_Swerve, elevator));
+        X.onTrue(new ZeroSubsystems(s_Swerve));
 
         DPadUp.onTrue(new InstantCommand(() -> arm.setPower(0.5)));
         DPadUp.onFalse(new InstantCommand(() -> arm.off()));
