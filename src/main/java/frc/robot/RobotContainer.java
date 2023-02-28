@@ -72,6 +72,7 @@ public class RobotContainer {
         );
 
         intake.setDefaultCommand(new IntakeControl(intake, () -> driver2.getRawAxis(LTAxis), () -> driver2.getRawAxis(RTAxis)));
+        arm.setDefaultCommand(new IntakePosition(arm, elevator));
 
         vision = new Vision();
         // Configure the button bindings
@@ -86,7 +87,7 @@ public class RobotContainer {
      */
     private void configureButtonBindings() {
         /* Driver Buttons */
-        X.onTrue(new InstantCommand(() -> s_Swerve.zeroGyro()));
+        X.onTrue(new ZeroSubsystems(s_Swerve, elevator));
 
         DPadUp.onTrue(new InstantCommand(() -> arm.setPower(0.5)));
         DPadUp.onFalse(new InstantCommand(() -> arm.off()));
@@ -102,7 +103,8 @@ public class RobotContainer {
 
         RB.onTrue(new InstantCommand(() -> s_Swerve.increaseSpeed()));
         LB.onTrue(new InstantCommand(() -> s_Swerve.decreaseSpeed()));
-        Y.onTrue(new MoveToPosition(s_Swerve, vision));
+        // Y.onTrue(new MoveToPosition(s_Swerve, vision));
+        Y.onTrue(new InstantCommand(() -> arm.setAngle(0)));
 
         B.onTrue(new IntakePosition(arm, elevator));
     }

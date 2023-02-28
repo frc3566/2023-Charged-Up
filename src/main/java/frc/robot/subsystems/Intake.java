@@ -20,6 +20,7 @@ public class Intake extends SubsystemBase {
     setBrake(true);
   }
 
+
   public void setBrake(boolean isBrake){
     IdleMode sparkMode = isBrake? IdleMode.kBrake : IdleMode.kCoast;
     motor.setIdleMode(sparkMode);
