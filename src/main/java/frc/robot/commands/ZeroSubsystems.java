@@ -14,7 +14,7 @@ public class ZeroSubsystems extends CommandBase{
     Elevator elevator;
     int i;
 
-    public ZeroSubsystems(Swerve swerve, Arm arm, Elevator elevator, int i) {
+    public ZeroSubsystems(Swerve swerve, Arm arm, Elevator elevator) {
         this.swerve = swerve;
         this.arm = arm;
         this.elevator = elevator;
@@ -25,14 +25,7 @@ public class ZeroSubsystems extends CommandBase{
     @Override
 
     public void initialize() {
-        switch(i) {
-            case 1:
-                swerve.zeroGyro();
-            case 2: 
-                arm.setZero();
-            case 3: 
-                elevator.setZero();
-        }
+       swerve.zeroGyro();
     }
 
     public void execute() {}

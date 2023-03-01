@@ -40,9 +40,9 @@ public class RobotContainer {
     private final boolean RobotCentric = false;
 
     private final JoystickButton X = new JoystickButton(driver1, XboxController.Button.kX.value);
-    private final JoystickButton Y = new JoystickButton(driver1, XboxController.Button.kY.value);
-    private final JoystickButton A = new JoystickButton(driver1, XboxController.Button.kA.value);
-    private final JoystickButton B = new JoystickButton(driver2, XboxController.Button.kB.value);
+    // private final JoystickButton Y = new JoystickButton(driver1, XboxController.Button.kY.value);
+    // private final JoystickButton A = new JoystickButton(driver1, XboxController.Button.kA.value);
+    // private final JoystickButton B = new JoystickButton(driver2, XboxController.Button.kB.value);
     private final JoystickButton RB = new JoystickButton(driver1, XboxController.Button.kRightBumper.value);
     private final JoystickButton LB = new JoystickButton(driver1, XboxController.Button.kLeftBumper.value);
     private final JoystickButton resetPivot = new JoystickButton(driver2, XboxController.Button.kY.value);
@@ -60,6 +60,7 @@ public class RobotContainer {
     private final Arm arm = new Arm();
     private final Elevator elevator = new Elevator();
     private final Intake intake = new Intake();
+    private final ZeroSubsystems zeroSubsystems = new ZeroSubsystems(s_Swerve, arm, elevator);
     private Vision vision;
 
 
@@ -92,9 +93,9 @@ public class RobotContainer {
      */
     private void configureButtonBindings() {
         /* Driver Buttons */
-        X.onTrue(new ZeroSubsystems(s_Swerve, arm, elevator, 1));
-        Y.onTrue(new ZeroSubsystems(s_Swerve, arm, elevator, 2));
-        B.onTrue(new ZeroSubsystems(s_Swerve, arm, elevator, 3));
+        X.onTrue(new InstantCommand(() -> zeroSubsystems.initialize()));
+        // Y.onTrue(new ZeroSubsystems(s_Swerve, arm, elevator, 2));
+        // B.onTrue(new ZeroSubsystems(s_Swerve, arm, elevator, 3));
 
         DPadUp.onTrue(new InstantCommand(() -> arm.setPower(0.5)));
         DPadUp.onFalse(new InstantCommand(() -> arm.off()));
@@ -111,9 +112,9 @@ public class RobotContainer {
         RB.onTrue(new InstantCommand(() -> s_Swerve.increaseSpeed()));
         LB.onTrue(new InstantCommand(() -> s_Swerve.decreaseSpeed()));
         // Y.onTrue(new MoveToPosition(s_Swerve, vision));
-        Y.onTrue(new InstantCommand(() -> arm.setAngle(0)));
+        // Y.onTrue(new InstantCommand(() -> arm.setAngle(0)));
 
-        B.onTrue(new IntakePosition(arm, elevator));
+        // B.onTrue(new IntakePosition(arm, elevator));
 
         resetPivot.onTrue(new InstantCommand(() -> arm.setZero()));
 
