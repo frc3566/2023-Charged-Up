@@ -24,9 +24,9 @@ public class ZeroSubsystems extends CommandBase{
     @Override
 
     public void initialize() {
-        // elevator.setZero();
-        swerve.zeroGyro();
-        // arm.setZero();
+        //elevator.setZero();
+        //swerve.zeroGyro();
+        arm.setZero();
     }
 
     public void execute() {}
