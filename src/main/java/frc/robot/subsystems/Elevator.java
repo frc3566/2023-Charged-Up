@@ -16,14 +16,17 @@ public class Elevator extends SubsystemBase{
     private SparkMaxPIDController PIDController;
 
     private double encoderZero;
-    private double fullLength = 82; //TODO measure this
+    private double fullLength = 82;
+    private double extension;
 
     public Elevator(){
         leadMotor = new CANSparkMax(Constants.ElevatorConstants.LEFT_MOTOR_ID, MotorType.kBrushless);
         leadMotor.setInverted(false);
+        leadMotor.setSmartCurrentLimit(20);
 
         followMotor = new CANSparkMax(Constants.ElevatorConstants.RIGHT_MOTOR_ID, MotorType.kBrushless);
         followMotor.follow(leadMotor,true);
+        followMotor.setSmartCurrentLimit(20);
 
         encoder = leadMotor.getEncoder();
         encoder.setVelocityConversionFactor(1);
@@ -34,11 +37,20 @@ public class Elevator extends SubsystemBase{
         PIDController.setD(0.01);
 
         setBrake(true);
+        this.setZero();
     }
     
     public void periodic() {
-        // System.out.println(encoder.getPosition());
+        extension = (encoder.getPosition()-encoderZero) / fullLength;
+        if(extension > encoderZero + fullLength && leadMotor.get() > 0){
+            leadMotor.set(0);
+        }
+        // if(extension < encoderZero && leadMotor.get() < 0){
+        //     leadMotor.set(0);
+        // }
+        // System.out.println("Elevator Encoder: " +  encoder.getPosition());
         // setExtendtionPercentage(0.0);
+        // System.out.println("Encoder Zero: " + encoderZero);
     }
 
     public void setPower(double power) {
@@ -61,15 +73,27 @@ public class Elevator extends SubsystemBase{
         encoderZero = encoder.getPosition();
     }
 
-    public void setExtendtionPercentage(double percent) {
+    public void setExtension(double factor) {
         //percent is between 0 and 1;
-        PIDController.setReference(encoderZero + fullLength * percent, ControlType.kPosition);
+        PIDController.setReference(encoderZero + fullLength * factor, ControlType.kPosition);
+        extension = factor;
+    }
 
+    public double getExtension(){
+        return extension;
     }
 
     public void off() {
         leadMotor.stopMotor();
         followMotor.stopMotor();
+    }
+
+    public double getLength(){
+        return 5 + 50 * getExtension();
+    }
+
+    public double getPower(){
+        return leadMotor.get();
     }
     
 }

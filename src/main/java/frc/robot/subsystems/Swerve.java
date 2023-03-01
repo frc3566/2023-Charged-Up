@@ -52,7 +52,7 @@ public class Swerve extends SubsystemBase {
                                     translation.getX(), 
                                     translation.getY(), 
                                     rotation, 
-                                    getYaw()
+                                    getYaw().times(-1)
                                 )
                                 : new ChassisSpeeds(
                                     translation.getX(), 

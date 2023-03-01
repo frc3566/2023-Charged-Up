@@ -14,7 +14,7 @@ public class Arm extends SubsystemBase {
     private CANSparkMax motor;
     private PIDController pidController;
     WPI_CANCoder CANCoder;
-    double encoderMin = -1, encoderMax = 102;
+    double encoderMin = 0, encoderMax = 90;
     double tarAngle;
     boolean isOpenLoop;
 
@@ -25,26 +25,40 @@ public class Arm extends SubsystemBase {
 
     public Arm() {
         motor = new CANSparkMax(Constants.ArmConstants.PULLEY_MOTOR_ID, MotorType.kBrushless);
+        motor.setSmartCurrentLimit(30);
+        motor.setSecondaryCurrentLimit(20);
         CANCoder = new WPI_CANCoder(Constants.ArmConstants.CANCODER_ID, "rio");
         setBrake(true);
 
-        tarAngle = CANCoder.getPosition();
+        // tarAngle = CANCoder.getPosition();
 
-        pidController = new PIDController(Constants.ArmConstants.kP, Constants.ArmConstants.kI, Constants.ArmConstants.kD);
+        // tarAngle = 0;
+
+        // pidController = new PIDController(Constants.ArmConstants.kP, Constants.ArmConstants.kI, Constants.ArmConstants.kD);
+        pidController = new PIDController(0.1, 0, 0);
         pidController.setTolerance(Constants.ArmConstants.TOLERANCE);
-        isOpenLoop = false;
     }
 
     public void periodic() {
-        double power = pidController.calculate(CANCoder.getPosition(), tarAngle);
-        System.out.println(power);
+        double power = -pidController.calculate(CANCoder.getPosition(), tarAngle);
         if(power != 0 && isOpenLoop == false){
-            // setPower(power);
-        }       
+            // motor.set(power);
+        }             
 
-        if(CANCoder.getPosition()> encoderMax){
-            setPower(0);
+        if(CANCoder.getPosition() < encoderMin){
+            if(getPower() > 0){
+                setPower(0);
+            }
         }
+        if(CANCoder.getPosition() > encoderMax){
+            if(getPower() < 0){
+                setPower(0);
+            }
+        }
+    }
+
+    public double getPower(){
+        return motor.get();
     }
 
     public void setBrake(boolean isBrake){
@@ -55,15 +69,22 @@ public class Arm extends SubsystemBase {
     public void setPower(double power) {
         isOpenLoop = true;
         motor.set(power);
+        tarAngle = CANCoder.getPosition();
     }
 
     public void setVoltage(double voltage){
         isOpenLoop = true;
         motor.setVoltage(voltage);
+        tarAngle = CANCoder.getPosition();
     }
 
     public void setAngle(double tar){
         tarAngle = tar;
+        isOpenLoop = false;
+    }
+
+    public void setZero(){
+        this.CANCoder.setPosition(0);
     }
 
     public double getCANCoderPosition() {

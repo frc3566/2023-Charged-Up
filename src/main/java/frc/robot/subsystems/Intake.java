@@ -15,10 +15,12 @@ public class Intake extends SubsystemBase {
 
   public Intake(){
     motor = new CANSparkMax(Constants.IntakeConstants.intakeID, MotorType.kBrushless);
-    motor.setInverted(false);
-
+    motor.setInverted(true);
+    motor.setSmartCurrentLimit(40);
+    motor.setSecondaryCurrentLimit(20);
     setBrake(true);
   }
+
 
   public void setBrake(boolean isBrake){
     IdleMode sparkMode = isBrake? IdleMode.kBrake : IdleMode.kCoast;
