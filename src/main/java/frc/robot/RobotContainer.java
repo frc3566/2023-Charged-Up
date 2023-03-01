@@ -37,6 +37,8 @@ public class RobotContainer {
     public static double speedCoefficient = 1.0;
 
     /* Driver Buttons */
+    private final boolean RobotCentric = false;
+
     private final JoystickButton X = new JoystickButton(driver1, XboxController.Button.kX.value);
     private final JoystickButton Y = new JoystickButton(driver1, XboxController.Button.kY.value);
     private final JoystickButton A = new JoystickButton(driver1, XboxController.Button.kA.value);
@@ -69,7 +71,8 @@ public class RobotContainer {
                 s_Swerve, 
                 () -> -driver1.getRawAxis(translationAxis), 
                 () -> -driver1.getRawAxis(strafeAxis), 
-                () -> -driver1.getRawAxis(rotationAxis)
+                () -> -driver1.getRawAxis(rotationAxis),
+                () -> RobotCentric
             )
         );
 
