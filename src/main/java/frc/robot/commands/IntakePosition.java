@@ -16,7 +16,7 @@ public class IntakePosition extends CommandBase {
 
         addRequirements(arm, elevator);
 
-        extensionMax = 30;
+        extensionMax = 37.5;
     }
 
     @Override
