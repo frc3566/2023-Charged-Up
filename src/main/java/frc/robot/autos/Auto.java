@@ -1,6 +1,9 @@
 package frc.robot.autos;
 
 import frc.robot.Constants;
+import frc.robot.subsystems.Arm;
+import frc.robot.subsystems.Elevator;
+import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Swerve;
 
 import java.util.List;
@@ -17,9 +20,9 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 
-public class exampleAuto extends SequentialCommandGroup {
+public class Auto extends SequentialCommandGroup {
     public static final double coefficient = 1.2;
-    public exampleAuto(Swerve s_Swerve){
+    public Auto(Swerve s_Swerve){
         TrajectoryConfig config =
             new TrajectoryConfig(
                     Constants.AutoConstants.kMaxSpeedMetersPerSecond,
@@ -34,7 +37,9 @@ public class exampleAuto extends SequentialCommandGroup {
                 // Pass through these two interior waypoints, making an 's' curve path
                 List.of(new Translation2d(0.5 * coefficient, 0 * coefficient)),
                 // End 3 meters straight ahead of where we started, facing forward
-                new Pose2d(1.5 * coefficient, 0 * coefficient, Rotation2d.fromDegrees(90)),
+                // new Pose2d(1.5 * coefficient, 0 * coefficient, Rotation2d.fromDegrees(90)), // example
+                new Pose2d(2 * coefficient, 0 * coefficient, Rotation2d.fromDegrees(0)), // charge station
+
                 config);
 
         var thetaController =

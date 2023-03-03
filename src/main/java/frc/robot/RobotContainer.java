@@ -97,10 +97,10 @@ public class RobotContainer {
         // Y.onTrue(new ZeroSubsystems(s_Swerve, arm, elevator, 2));
         // B.onTrue(new ZeroSubsystems(s_Swerve, arm, elevator, 3));
 
-        DPadUp.onTrue(new InstantCommand(() -> arm.setPower(0.5)));
+        DPadUp.onTrue(new InstantCommand(() -> arm.setPower(0.8)));
         DPadUp.onFalse(new InstantCommand(() -> arm.off()));
 
-        DPadDown.onTrue(new InstantCommand(() -> arm.setPower(-0.5)));
+        DPadDown.onTrue(new InstantCommand(() -> arm.setPower(-0.8)));
         DPadDown.onFalse(new InstantCommand(() -> arm.off()));
 
         DPadLeft.onTrue(new InstantCommand(() -> elevator.setPower(0.5)));
@@ -129,6 +129,6 @@ public class RobotContainer {
      */
     public Command getAutonomousCommand() {
         // An ExampleCommand will run in autonomous
-        return new exampleAuto(s_Swerve);
+        return new Auto(s_Swerve);
     }
 }
