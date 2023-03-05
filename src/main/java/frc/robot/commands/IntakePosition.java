@@ -29,7 +29,7 @@ public class IntakePosition extends CommandBase {
         double extension = elevator.getLength() * Math.cos(angle);
         double correction = (extensionMax/Math.cos(angle) - 5) / 50;
 
-        //veritcal
+        //vertical
         double heightExtension = elevator.getLength() * Math.sin(angle);
         double heightCorrection = (extensionHeightMax/Math.sin(angle) - 5) / 50;
         System.out.println(heightCorrection);

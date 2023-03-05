@@ -42,7 +42,7 @@ public class Arm extends SubsystemBase {
     public void periodic() {
         double power = -pidController.calculate(CANCoder.getPosition(), tarAngle);
         if(power != 0 && isOpenLoop == false){
-            // motor.set(power);
+            motor.set(power);
         }             
 
         if(CANCoder.getPosition() < encoderMin){

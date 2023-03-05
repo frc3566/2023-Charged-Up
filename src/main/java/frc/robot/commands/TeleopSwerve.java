@@ -30,7 +30,7 @@ public class TeleopSwerve extends CommandBase {
 
     @Override
     public void execute() {
-        System.out.println("Yaw: " + s_Swerve.getYaw());
+        System.out.println("Yaw: " + s_Swerve.getYaw()); //TODO: DELETE
         /* Get Values, Deadband*/
         double translationVal = MathUtil.applyDeadband(translationSup.getAsDouble(), Constants.stickDeadband);
         double strafeVal = MathUtil.applyDeadband(strafeSup.getAsDouble(), Constants.stickDeadband);
