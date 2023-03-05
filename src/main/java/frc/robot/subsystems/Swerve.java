@@ -24,16 +24,10 @@ public class Swerve extends SubsystemBase {
     public SwerveModule[] mSwerveMods;
     public AHRS gyro;
 
-    public double facing;
-    private double gyroZero;
-
     public Swerve() {
         gyro = new AHRS(Constants.Swerve.navXID);
         gyro.calibrate();
-        // gyro.zeroYaw();
-
-        facing = 0;
-        gyroZero = 0;
+        gyro.zeroYaw();
 
         mSwerveMods = new SwerveModule[] {
             new SwerveModule(0, Constants.Swerve.Mod0.constants),
@@ -107,7 +101,6 @@ public class Swerve extends SubsystemBase {
 
     public void zeroGyro(){
         gyro.zeroYaw();
-        facing = 0;
     }
     public void increaseSpeed() {
         SmartDashboard.putNumber("Coefficient:", RobotContainer.speedCoefficient);
@@ -131,37 +124,17 @@ public class Swerve extends SubsystemBase {
         System.out.println(RobotContainer.speedCoefficient);
     }
 
-    public void setCoefficent(final double coefficient) {
-        SmartDashboard.putNumber("Coefficient:", RobotContainer.speedCoefficient);
-        RobotContainer.speedCoefficient = coefficient;
-        System.out.println(RobotContainer.speedCoefficient);
-    }
-
     public double getCoefficient() {
         return RobotContainer.speedCoefficient;
     }
-
     public Rotation2d getYaw() {
         return (Constants.Swerve.invertGyro) ? Rotation2d.fromDegrees(360 - gyro.getYaw()) : Rotation2d.fromDegrees(gyro.getYaw());
-    }
-
-    public Rotation2d getRoll() {
-        return Rotation2d.fromDegrees(gyro.getRoll());
-    }
-
-    public Rotation2d getPitch() {
-        return Rotation2d.fromDegrees(gyro.getPitch());
     }
 
     public void resetModulesToAbsolute(){
         for(SwerveModule mod : mSwerveMods){
             mod.resetToAbsolute();
         }
-    }
-
-    public void off(){
-        facing = getYaw().getRadians();
-        drive(new Translation2d(), 0, false, true);
     }
 
     @Override
@@ -174,8 +147,4 @@ public class Swerve extends SubsystemBase {
             SmartDashboard.putNumber("Mod " + mod.moduleNumber + " Velocity", mod.getState().speedMetersPerSecond);    
         }
     }
-
-    // public void setGyro(double angle){
-    //     gyroZero = 
-    // }
 }
