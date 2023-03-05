@@ -25,8 +25,7 @@ public class IntakeControl extends CommandBase{
             intake.off();
             return;
         }
-
-        double power = Math.max(lt, rt) * ( lt > rt ? -1 : 1) * 0.25;
+        double power = Math.max(lt, rt) * ( lt > rt ? -1 : 1) * -0.5;
         // double power = 0.5;
         intake.setPower(power);
     }
