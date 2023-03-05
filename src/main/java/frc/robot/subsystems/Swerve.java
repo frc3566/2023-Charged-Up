@@ -25,6 +25,7 @@ public class Swerve extends SubsystemBase {
     public AHRS gyro;
 
     public double facing;
+    private double gyroZero;
 
     public Swerve() {
         gyro = new AHRS(Constants.Swerve.navXID);
@@ -32,6 +33,7 @@ public class Swerve extends SubsystemBase {
         // gyro.zeroYaw();
 
         facing = 0;
+        gyroZero = 0;
 
         mSwerveMods = new SwerveModule[] {
             new SwerveModule(0, Constants.Swerve.Mod0.constants),
@@ -172,4 +174,8 @@ public class Swerve extends SubsystemBase {
             SmartDashboard.putNumber("Mod " + mod.moduleNumber + " Velocity", mod.getState().speedMetersPerSecond);    
         }
     }
+
+    // public void setGyro(double angle){
+    //     gyroZero = 
+    // }
 }

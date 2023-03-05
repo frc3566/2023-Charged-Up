@@ -19,10 +19,13 @@ import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 
-public class Auto extends SequentialCommandGroup {
+public class Auto extends SequentialCommandGroup{
     public static final double coefficient = 1.2;
-    public Auto(Swerve s_Swerve){
+    
+
+    public Auto(Swerve s_Swerve, Elevator elevator, Arm arm, Intake intake){
         TrajectoryConfig config =
             new TrajectoryConfig(
                     Constants.AutoConstants.kMaxSpeedMetersPerSecond,
@@ -38,7 +41,7 @@ public class Auto extends SequentialCommandGroup {
                 List.of(new Translation2d(0.5 * coefficient, 0 * coefficient)),
                 // End 3 meters straight ahead of where we started, facing forward
                 // new Pose2d(1.5 * coefficient, 0 * coefficient, Rotation2d.fromDegrees(90)), // example
-                new Pose2d(2 * coefficient, 0 * coefficient, Rotation2d.fromDegrees(0)), // charge station
+                new Pose2d(3 * coefficient, 0 * coefficient, Rotation2d.fromDegrees(0)), // charge station
 
                 config);
 
@@ -61,6 +64,14 @@ public class Auto extends SequentialCommandGroup {
 
         addCommands(
             new InstantCommand(() -> s_Swerve.resetOdometry(exampleTrajectory.getInitialPose())),
+            // new InstantCommand(() -> intake.setPower(0.5)),
+            // // new WaitCommand(2), 
+            // new InstantCommand(() -> arm.setAngle(30)),
+            // // new WaitCommand(2),
+            // new InstantCommand(() -> elevator.setExtension(1)), 
+            // new InstantCommand(() -> intake.setPower(-0.75)), 
+            // // new WaitCommand(2), 
+            // new InstantCommand(() -> intake.off())
             swerveControllerCommand
         );
     }
