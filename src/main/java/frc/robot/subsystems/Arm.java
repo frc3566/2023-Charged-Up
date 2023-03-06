@@ -11,12 +11,12 @@ import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 public class Arm extends SubsystemBase {
-    private CANSparkMax motor;
+    public CANSparkMax motor;
     private PIDController pidController;
     WPI_CANCoder CANCoder;
     double encoderMin = 0, encoderMax = 90;
     double tarAngle;
-    boolean isOpenLoop;
+    public boolean isOpenLoop;
 
     double FF, kP, kD;
     // what are these for?
@@ -24,6 +24,7 @@ public class Arm extends SubsystemBase {
     // private boolean onT = false;
 
     public Arm() {
+        isOpenLoop = true;
         motor = new CANSparkMax(Constants.ArmConstants.PULLEY_MOTOR_ID, MotorType.kBrushless);
         motor.setSmartCurrentLimit(30);
         motor.setSecondaryCurrentLimit(20);
@@ -93,7 +94,6 @@ public class Arm extends SubsystemBase {
 
     public void off() {
         motor.stopMotor();
-        isOpenLoop = false;
     }
 
 }

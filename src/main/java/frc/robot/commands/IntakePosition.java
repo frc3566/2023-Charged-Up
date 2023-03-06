@@ -32,7 +32,7 @@ public class IntakePosition extends CommandBase {
         //vertical
         double heightExtension = elevator.getLength() * Math.sin(angle);
         double heightCorrection = (extensionHeightMax/Math.sin(angle) - 5) / 50;
-        System.out.println(heightCorrection);
+        // System.out.println(heightCorrection);
         correction = Math.min(correction, heightCorrection);
         if(extension > extensionMax || heightExtension > extensionHeightMax){
             if(arm.getPower() != 0 ){

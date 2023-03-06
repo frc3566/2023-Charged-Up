@@ -39,22 +39,46 @@ public class RobotContainer {
     /* Driver Buttons */
     private final boolean RobotCentric = false;
 
-    private final JoystickButton X = new JoystickButton(driver1, XboxController.Button.kX.value);
+    // private final JoystickButton X = new JoystickButton(driver1, XboxController.Button.kX.value);
     // private final JoystickButton Y = new JoystickButton(driver1, XboxController.Button.kY.value);
     // private final JoystickButton A = new JoystickButton(driver1, XboxController.Button.kA.value);
     // private final JoystickButton B = new JoystickButton(driver2, XboxController.Button.kB.value);
+    // private final JoystickButton RB = new JoystickButton(driver1, XboxController.Button.kRightBumper.value);
+    // private final JoystickButton LB = new JoystickButton(driver1, XboxController.Button.kLeftBumper.value);
+    // private final JoystickButton resetPivot = new JoystickButton(driver2, XboxController.Button.kY.value);
+    // private final JoystickButton resetElevator = new JoystickButton(driver2, XboxController.Button.kB.value);
+    // private final int LTAxis = XboxController.Axis.kLeftTrigger.value;
+    // private final int RTAxis = XboxController.Axis.kRightTrigger.value;
+    // private final POVButton DPadUp = new POVButton(driver2, 0);
+    // private final POVButton DPadDown = new POVButton(driver2, 180);
+    // private final POVButton DPadLeft = new POVButton(driver2, 90);
+    // private final POVButton DPadRight = new POVButton(driver2, 270);
+
+    // New driver 1 controls
+    // Speed modulation buttons
     private final JoystickButton RB = new JoystickButton(driver1, XboxController.Button.kRightBumper.value);
     private final JoystickButton LB = new JoystickButton(driver1, XboxController.Button.kLeftBumper.value);
-    private final JoystickButton resetPivot = new JoystickButton(driver2, XboxController.Button.kY.value);
-    private final JoystickButton resetElevator = new JoystickButton(driver2, XboxController.Button.kB.value);
+    // Reset field orientation
+    private final JoystickButton X = new JoystickButton(driver1, XboxController.Button.kX.value);
+
+
+
+    // New driver 2 controls
+    // Reset value buttons
+    private final JoystickButton resetPivot = new JoystickButton(driver2, XboxController.Button.kRightBumper.value);
+    private final JoystickButton resetElevator = new JoystickButton(driver2, XboxController.Button.kLeftBumper.value);
+    // Elevator In and Out
+    private final POVButton ElevatorIn = new POVButton(driver2, 90);
+    private final POVButton ElevatorOut = new POVButton(driver2, 270);
+    // Pivot Up and Down
+    private final JoystickButton PivotUp = new JoystickButton(driver2, XboxController.Button.kY.value);
+    private final JoystickButton PivotDown = new JoystickButton(driver2, XboxController.Button.kA.value);
+    // Intake Controls
     private final int LTAxis = XboxController.Axis.kLeftTrigger.value;
     private final int RTAxis = XboxController.Axis.kRightTrigger.value;
-    private final POVButton DPadUp = new POVButton(driver2, 0);
-    private final POVButton DPadDown = new POVButton(driver2, 180);
-    private final POVButton DPadLeft = new POVButton(driver2, 90);
-    private final POVButton DPadRight = new POVButton(driver2, 270);
-
-
+    //Move Arm to 
+    private final JoystickButton X2 = new JoystickButton(driver2, XboxController.Button.kX.value);
+    
     /* Subsystems */
     private final Swerve s_Swerve = new Swerve();
     private final Arm arm = new Arm();
@@ -94,20 +118,21 @@ public class RobotContainer {
     private void configureButtonBindings() {
         /* Driver Buttons */
         X.onTrue(new InstantCommand(() -> zeroSubsystems.initialize()));
+        X2.onTrue(new InstantCommand(() -> arm.setAngle(30)));
         // Y.onTrue(new ZeroSubsystems(s_Swerve, arm, elevator, 2));
         // B.onTrue(new ZeroSubsystems(s_Swerve, arm, elevator, 3));
 
-        DPadUp.onTrue(new InstantCommand(() -> arm.setPower(0.8)));
-        DPadUp.onFalse(new InstantCommand(() -> arm.off()));
+        PivotUp.onTrue(new InstantCommand(() -> arm.setPower(1)));
+        PivotUp.onFalse(new InstantCommand(() -> arm.off()));
 
-        DPadDown.onTrue(new InstantCommand(() -> arm.setPower(-0.8)));
-        DPadDown.onFalse(new InstantCommand(() -> arm.off()));
+        PivotDown.onTrue(new InstantCommand(() -> arm.setPower(-1)));
+        PivotDown.onFalse(new InstantCommand(() -> arm.off()));
 
-        DPadLeft.onTrue(new InstantCommand(() -> elevator.setPower(0.5)));
-        DPadLeft.onFalse(new InstantCommand(() -> elevator.off()));
+        ElevatorIn.onTrue(new InstantCommand(() -> elevator.setPower(0.5)));
+        ElevatorIn.onFalse(new InstantCommand(() -> elevator.off()));
 
-        DPadRight.onTrue(new InstantCommand(() -> elevator.setPower(-0.5)));
-        DPadRight.onFalse(new InstantCommand(() -> elevator.off()));
+        ElevatorOut.onTrue(new InstantCommand(() -> elevator.setPower(-0.5)));
+        ElevatorOut.onFalse(new InstantCommand(() -> elevator.off()));
 
         RB.onTrue(new InstantCommand(() -> s_Swerve.increaseSpeed()));
         LB.onTrue(new InstantCommand(() -> s_Swerve.decreaseSpeed()));
@@ -117,7 +142,6 @@ public class RobotContainer {
         // B.onTrue(new IntakePosition(arm, elevator));
 
         resetPivot.onTrue(new InstantCommand(() -> arm.setZero()));
-
         resetElevator.onTrue(new InstantCommand(() -> elevator.setZero()));
     }
     
