@@ -33,17 +33,30 @@ public class Auto extends SequentialCommandGroup{
                 .setKinematics(Constants.Swerve.swerveKinematics);
 
         // An example trajectory to follow.  All units in meters.
-        Trajectory exampleTrajectory = //TODO: Fix auto code
+        Trajectory traj1 = //TODO: Fix auto code
             TrajectoryGenerator.generateTrajectory(
                 // Start at the origin facing the +X direction
                 new Pose2d(0, 0, new Rotation2d(0)),
                 // Pass through these two interior waypoints, making an 's' curve path
-                List.of(new Translation2d(5.0 * coefficient, 0 * coefficient)),
+                List.of(new Translation2d(1.0 * coefficient, 0 * coefficient), new Translation2d(4.0 * coefficient, 0 * coefficient)),
                 // End 3 meters straight ahead of where we started, facing forward
                 // new Pose2d(1.5 * coefficient, 0 * coefficient, Rotation2d.fromDegrees(90)), // example
-                new Pose2d(-2 * coefficient, 0 * coefficient, Rotation2d.fromDegrees(0)), 
+                new Pose2d(5 * coefficient, 0 * coefficient, Rotation2d.fromDegrees(0)), 
 
                 config);
+        Trajectory traj2 = 
+            TrajectoryGenerator.generateTrajectory(
+                // Start at the origin facing the +X direction
+                new Pose2d(0, 0, new Rotation2d(0)),
+                // Pass through these two interior waypoints, making an 's' curve path
+                List.of(new Translation2d(-1.0 * coefficient, 0.0 * coefficient), new Translation2d(-3.0 * coefficient, 0.0 * coefficient)),
+                // End 3 meters straight ahead of where we started, facing forward
+                // new Pose2d(1.5 * coefficient, 0 * coefficient, Rotation2d.fromDegrees(90)), // example
+                new Pose2d(-4 * coefficient, 0 * coefficient, Rotation2d.fromDegrees(0)), 
+
+                config);
+
+        Trajectory finaltraj = traj1.concatenate(traj2);
 
         var thetaController =
             new ProfiledPIDController(
@@ -52,7 +65,7 @@ public class Auto extends SequentialCommandGroup{
 
         SwerveControllerCommand swerveControllerCommand =
             new SwerveControllerCommand(
-                exampleTrajectory,
+                finaltraj,
                 s_Swerve::getPose,
                 Constants.Swerve.swerveKinematics,
                 new PIDController(Constants.AutoConstants.kPXController, 0, 0),
@@ -63,7 +76,7 @@ public class Auto extends SequentialCommandGroup{
 
 
         addCommands(
-            new InstantCommand(() -> s_Swerve.resetOdometry(exampleTrajectory.getInitialPose())),
+            new InstantCommand(() -> s_Swerve.resetOdometry(finaltraj.getInitialPose())),
             // new InstantCommand(() -> intake.setPower(0.5)),
             // // new WaitCommand(2), 
             // new InstantCommand(() -> arm.setAngle(30)),
