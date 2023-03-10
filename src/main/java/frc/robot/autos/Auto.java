@@ -26,11 +26,18 @@ public class Auto extends SequentialCommandGroup{
     
 
     public Auto(Swerve s_Swerve, Elevator elevator, Arm arm, Intake intake) {
-        TrajectoryConfig config =
+        TrajectoryConfig config1 =
             new TrajectoryConfig(
                     Constants.AutoConstants.kMaxSpeedMetersPerSecond,
                     Constants.AutoConstants.kMaxAccelerationMetersPerSecondSquared)
                 .setKinematics(Constants.Swerve.swerveKinematics);
+
+        TrajectoryConfig config2 =
+                new TrajectoryConfig(
+                        Constants.AutoConstants.kMaxSpeedMetersPerSecond,
+                        Constants.AutoConstants.kMaxAccelerationMetersPerSecondSquared)
+                    .setKinematics(Constants.Swerve.swerveKinematics);
+        config2.setReversed(true);
 
         // An example trajectory to follow.  All units in meters.
         Trajectory traj1 = //TODO: Fix auto code
@@ -43,29 +50,27 @@ public class Auto extends SequentialCommandGroup{
                 // new Pose2d(1.5 * coefficient, 0 * coefficient, Rotation2d.fromDegrees(90)), // example
                 new Pose2d(5 * coefficient, 0 * coefficient, Rotation2d.fromDegrees(0)), 
 
-                config);
+                config1);
         Trajectory traj2 = 
             TrajectoryGenerator.generateTrajectory(
                 // Start at the origin facing the +X direction
                 new Pose2d(0, 0, new Rotation2d(0)),
                 // Pass through these two interior waypoints, making an 's' curve path
-                List.of(new Translation2d(-1.0 * coefficient, 0.0 * coefficient), new Translation2d(-3.0 * coefficient, 0.0 * coefficient)),
+                List.of(new Translation2d(0.5 * coefficient, 0.0 * coefficient), new Translation2d(2.5 * coefficient, 0.0 * coefficient)),
                 // End 3 meters straight ahead of where we started, facing forward
                 // new Pose2d(1.5 * coefficient, 0 * coefficient, Rotation2d.fromDegrees(90)), // example
-                new Pose2d(-4 * coefficient, 0 * coefficient, Rotation2d.fromDegrees(0)), 
+                new Pose2d(3 * coefficient, 0 * coefficient, Rotation2d.fromDegrees(0)), 
 
-                config);
-
-        Trajectory finaltraj = traj1.concatenate(traj2);
+                config2);
 
         var thetaController =
             new ProfiledPIDController(
                 Constants.AutoConstants.kPThetaController, 0, 0, Constants.AutoConstants.kThetaControllerConstraints);
         thetaController.enableContinuousInput(-Math.PI, Math.PI);
 
-        SwerveControllerCommand swerveControllerCommand =
+        SwerveControllerCommand swerveControllerCommand1 =
             new SwerveControllerCommand(
-                finaltraj,
+                traj1,
                 s_Swerve::getPose,
                 Constants.Swerve.swerveKinematics,
                 new PIDController(Constants.AutoConstants.kPXController, 0, 0),
@@ -73,10 +78,21 @@ public class Auto extends SequentialCommandGroup{
                 thetaController,
                 s_Swerve::setModuleStates,
                 s_Swerve);
+    
+            SwerveControllerCommand swerveControllerCommand2 =
+                new SwerveControllerCommand(
+                    traj2,
+                    s_Swerve::getPose,
+                    Constants.Swerve.swerveKinematics,
+                    new PIDController(Constants.AutoConstants.kPXController, 0, 0),
+                    new PIDController(Constants.AutoConstants.kPYController, 0, 0),
+                    thetaController,
+                    s_Swerve::setModuleStates,
+                    s_Swerve);
 
 
         addCommands(
-            new InstantCommand(() -> s_Swerve.resetOdometry(finaltraj.getInitialPose())),
+            new InstantCommand(() -> s_Swerve.resetOdometry(traj1.getInitialPose())),
             // new InstantCommand(() -> intake.setPower(0.5)),
             // // new WaitCommand(2), 
             // new InstantCommand(() -> arm.setAngle(30)),
@@ -85,7 +101,10 @@ public class Auto extends SequentialCommandGroup{
             // new InstantCommand(() -> intake.setPower(-0.75)), 
             // // new WaitCommand(2), 
             // new InstantCommand(() -> intake.off())
-            swerveControllerCommand
+            swerveControllerCommand1,
+            
+            new InstantCommand(() -> s_Swerve.resetOdometry(traj2.getInitialPose())),
+            swerveControllerCommand2
         );
     }
 }
