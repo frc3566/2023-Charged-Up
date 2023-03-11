@@ -27,7 +27,6 @@ public class AutoSwerve extends CommandBase {
 
     @Override
     public void execute() {
-        if (count < )
         s_Swerve.drive(translation, rotation, true, true);
     }
     public boolean isFinished() {
