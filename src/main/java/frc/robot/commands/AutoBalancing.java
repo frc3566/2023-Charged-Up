@@ -1,4 +1,4 @@
-package frc.robot.commands;
+package frc.robot.commands; //TODO on off switch
 
 import frc.robot.Constants;
 import frc.robot.subsystems.Swerve;
@@ -29,7 +29,8 @@ public class AutoBalancing extends CommandBase {
     }
 
     public void execute() {
-        double PIDVal = this.linearController.calculate(0, swerve.getRoll().getRadians());
+        System.out.println("Activated");
+        PIDVal = this.linearController.calculate(0, swerve.getRoll().getRadians());
         System.out.println(PIDVal);
         if (PIDVal == 0) {
             cancelCommand = true;
@@ -42,8 +43,12 @@ public class AutoBalancing extends CommandBase {
         );
     }
 
+    public void cancel() {
+        cancelCommand = true;
+    }
+
     public void end(boolean interrupted) {}
     public boolean isFinished() {
-      return PIDVal == 0 || cancelCommand;
+      return cancelCommand;
     }
 }

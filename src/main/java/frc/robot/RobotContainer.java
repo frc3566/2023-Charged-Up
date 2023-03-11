@@ -60,6 +60,8 @@ public class RobotContainer {
     private final JoystickButton LB = new JoystickButton(driver1, XboxController.Button.kLeftBumper.value);
     // Reset field orientation
     private final JoystickButton X = new JoystickButton(driver1, XboxController.Button.kX.value);
+    //Auto Balancing
+    private final JoystickButton B = new JoystickButton(driver1, XboxController.Button.kB.value);
 
 
 
@@ -120,7 +122,7 @@ public class RobotContainer {
         X.onTrue(new InstantCommand(() -> zeroSubsystems.initialize()));
         X2.onTrue(new InstantCommand(() -> arm.setAngle(30)));
         // Y.onTrue(new ZeroSubsystems(s_Swerve, arm, elevator, 2));
-        // B.onTrue(new ZeroSubsystems(s_Swerve, arm, elevator, 3));
+        B.toggleOnTrue(new AutoBalancing(s_Swerve));
 
         PivotUp.onTrue(new InstantCommand(() -> arm.setPower(1)));
         PivotUp.onFalse(new InstantCommand(() -> arm.off()));
