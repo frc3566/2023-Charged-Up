@@ -74,8 +74,7 @@ public class FUCKAuto extends SequentialCommandGroup {
             // // new WaitCommand(2), 
             // new InstantCommand(() -> intake.off();
             swerveControllerCommand,
-            new WaitCommand(2),
-            new InstantCommand(() -> new AutoBalancing(s_Swerve))
+            new AutoBalancing(s_Swerve)
         );
     }
 }

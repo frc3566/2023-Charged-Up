@@ -155,6 +155,6 @@ public class RobotContainer {
      */
     public Command getAutonomousCommand() {
         // An ExampleCommand will run in autonomous
-        return new HardCodeAuto(s_Swerve, elevator, arm, intake);
+        return new FUCKAuto(s_Swerve, elevator, arm, intake);
     }
 }

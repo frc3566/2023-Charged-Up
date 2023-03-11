@@ -32,7 +32,7 @@ public class AutoBalancing extends CommandBase {
         System.out.println("Activated");
         PIDVal = this.linearController.calculate(0, swerve.getRoll().getRadians());
         System.out.println(PIDVal);
-        if (PIDVal == 0) {
+        if (Math.abs(PIDVal) <= 0.02) {
             cancelCommand = true;
         }
         this.swerve.drive(

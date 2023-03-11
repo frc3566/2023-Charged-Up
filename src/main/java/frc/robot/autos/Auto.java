@@ -47,12 +47,12 @@ public class Auto extends SequentialCommandGroup{
         Trajectory traj2 = 
             TrajectoryGenerator.generateTrajectory(
                 // Start at the origin facing the +X direction
-                new Pose2d(7, 0, new Rotation2d(0)),
+                new Pose2d(0, 0, new Rotation2d(0)),
                 // Pass through these two interior waypoints, making an 's' curve path
                 List.of(new Translation2d(-0.5 * coefficient, 0.0 * coefficient), new Translation2d(-2.5 * coefficient, 0.0 * coefficient)),
                 // End 3 meters straight ahead of where we started, facing forward
                 // new Pose2d(1.5 * coefficient, 0 * coefficient, Rotation2d.fromDegrees(90)), // example
-                new Pose2d(4 * coefficient, 0 * coefficient, Rotation2d.fromDegrees(0)),
+                new Pose2d(-3 * coefficient, 0 * coefficient, Rotation2d.fromDegrees(0)),
 
                 config);
                 
