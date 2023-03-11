@@ -5,7 +5,9 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
@@ -38,6 +40,7 @@ public class RobotContainer {
 
     /* Driver Buttons */
     private final boolean RobotCentric = false;
+    private boolean firstRun = true;
 
     // private final JoystickButton X = new JoystickButton(driver1, XboxController.Button.kX.value);
     // private final JoystickButton Y = new JoystickButton(driver1, XboxController.Button.kY.value);
@@ -121,8 +124,11 @@ public class RobotContainer {
         /* Driver Buttons */
         X.onTrue(new InstantCommand(() -> zeroSubsystems.initialize()));
         X2.onTrue(new InstantCommand(() -> arm.setAngle(30)));
+
+        AutoBalancing autoBalanceCommand;
         // Y.onTrue(new ZeroSubsystems(s_Swerve, arm, elevator, 2));
-        B.toggleOnTrue(new AutoBalancing(s_Swerve));
+        B.onTrue(autoBalanceCommand = new AutoBalancing(s_Swerve));
+        B.onFalse(new InstantCommand(() -> autoBalanceCommand.end(true)));
 
         PivotUp.onTrue(new InstantCommand(() -> arm.setPower(1)));
         PivotUp.onFalse(new InstantCommand(() -> arm.off()));

@@ -34,12 +34,12 @@ public class FUCKAuto extends SequentialCommandGroup {
                 .setKinematics(Constants.Swerve.swerveKinematics);
 
         // An example trajectory to follow.  All units in meters.
-        Trajectory traj = //TODO: Fix auto code
+        Trajectory traj = //TODO: Currently assuming traj can get on ramp, fix this
             TrajectoryGenerator.generateTrajectory(
                 // Start at the origin facing the +X direction
                 new Pose2d(0, 0, new Rotation2d(0)),
                 // Pass through these two interior waypoints, making an 's' curve path
-                List.of(new Translation2d(2.0 * coefficient, 0 * coefficient), new Translation2d(4.0 * coefficient, 0 * coefficient)),
+                List.of(new Translation2d(1.0 * coefficient, 0 * coefficient), new Translation2d(3.0 * coefficient, 0 * coefficient)),
                 // End 3 meters straight ahead of where we started, facing forward
                 // new Pose2d(1.5 * coefficient, 0 * coefficient, Rotation2d.fromDegrees(90)), // example
                 new Pose2d(4 * coefficient, 0 * coefficient, Rotation2d.fromDegrees(0)), 
@@ -73,8 +73,8 @@ public class FUCKAuto extends SequentialCommandGroup {
             // new InstantCommand(() -> intake.setPower(-0.75)), 
             // // new WaitCommand(2), 
             // new InstantCommand(() -> intake.off();
-            swerveControllerCommand,
-            new AutoBalancing(s_Swerve)
+            swerveControllerCommand
+            // new AutoBalancing(s_Swerve)
         );
     }
 }

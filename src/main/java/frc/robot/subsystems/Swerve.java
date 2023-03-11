@@ -58,7 +58,7 @@ public class Swerve extends SubsystemBase {
                                     translation.getX(), 
                                     translation.getY(), 
                                     rotation, 
-                                    getYaw().times(-1)
+                                    getYaw()
                                 )
                                 : new ChassisSpeeds(
                                     translation.getX(), 
@@ -109,6 +109,7 @@ public class Swerve extends SubsystemBase {
         gyro.zeroYaw();
         facing = 0;
     }
+
     public void increaseSpeed() {
         SmartDashboard.putNumber("Coefficient:", RobotContainer.speedCoefficient);
         if (RobotContainer.speedCoefficient >= 0.9){
