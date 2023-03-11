@@ -8,12 +8,13 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 
-public class AutoBalencing extends CommandBase {    
+public class AutoBalancing extends CommandBase {    
     private Swerve swerve;
     private PIDController linearController;
     private double PIDVal;
+    private boolean cancelCommand = false;
 
-    public AutoBalencing(Swerve swerve) {
+    public AutoBalancing(Swerve swerve) {
         this.swerve = swerve;
         addRequirements(swerve);
 
@@ -24,12 +25,15 @@ public class AutoBalencing extends CommandBase {
 
     @Override
     public void initialize() {
-        swerve.off();
         return;
     }
 
     public void execute() {
-        double PIDVal = this.linearController.calculate(0, swerve.getPitch().getRadians());
+        double PIDVal = this.linearController.calculate(0, swerve.getRoll().getRadians());
+        System.out.println(PIDVal);
+        if (PIDVal == 0) {
+            cancelCommand = true;
+        }
         this.swerve.drive(
             new Translation2d(0, MathUtil.clip(PIDVal, -0.5, 0.5) * Constants.Swerve.maxSpeed), 
             0, 
@@ -40,6 +44,6 @@ public class AutoBalencing extends CommandBase {
 
     public void end(boolean interrupted) {}
     public boolean isFinished() {
-      return PIDVal == 0;
+      return PIDVal == 0 || cancelCommand;
     }
 }

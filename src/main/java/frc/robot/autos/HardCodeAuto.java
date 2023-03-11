@@ -1,10 +1,12 @@
 package frc.robot.autos;
 import frc.robot.Constants;
+import frc.robot.commands.*;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Swerve;
 
+import java.time.Instant;
 import java.util.List;
 
 import edu.wpi.first.math.util.Units;
@@ -29,8 +31,10 @@ public class HardCodeAuto extends SequentialCommandGroup{
 
 
         addCommands(
-            new InstantCommand(() -> s_Swerve.drive(new Translation2d(5, 0), 0, true, true)), 
-            new InstantCommand(() -> s_Swerve.drive(new Translation2d(-2, 0), Units.degreesToRadians(180.0), true, true))
+            new InstantCommand(() -> s_Swerve.zeroGyro()),
+            new AutoSwerve(s_Swerve, new Translation2d(5, 0), 0),
+            new WaitCommand(2), 
+            new AutoSwerve(s_Swerve, new Translation2d(-2, 0), Units.degreesToRadians(180.0))
 
             // new InstantCommand(() -> intake.setPower(0.5)),
             // // new WaitCommand(2), 
