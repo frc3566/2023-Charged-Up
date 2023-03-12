@@ -65,6 +65,7 @@ public class RobotContainer {
     private final JoystickButton X = new JoystickButton(driver1, XboxController.Button.kX.value);
     //Auto Balancing
     private final JoystickButton B = new JoystickButton(driver1, XboxController.Button.kB.value);
+    private final JoystickButton B2 = new JoystickButton(driver2, XboxController.Button.kB.value);
 
 
 
@@ -127,8 +128,8 @@ public class RobotContainer {
 
         AutoBalancing autoBalanceCommand;
         // Y.onTrue(new ZeroSubsystems(s_Swerve, arm, elevator, 2));
-        B.onTrue(autoBalanceCommand = new AutoBalancing(s_Swerve));
-        B.onFalse(new InstantCommand(() -> autoBalanceCommand.end(true)));
+        B.toggleOnTrue(autoBalanceCommand = new AutoBalancing(s_Swerve, false));
+        //B.onFalse(new InstantCommand(() -> autoBalanceCommand.cancel()));
 
         PivotUp.onTrue(new InstantCommand(() -> arm.setPower(1)));
         PivotUp.onFalse(new InstantCommand(() -> arm.off()));

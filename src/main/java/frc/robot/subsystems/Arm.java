@@ -36,7 +36,7 @@ public class Arm extends SubsystemBase {
         // tarAngle = 0;
 
         // pidController = new PIDController(Constants.ArmConstants.kP, Constants.ArmConstants.kI, Constants.ArmConstants.kD);
-        pidController = new PIDController(0.1, 0, 0);
+        pidController = new PIDController(0.2, 0, 0);
         pidController.setTolerance(Constants.ArmConstants.TOLERANCE);
     }
 

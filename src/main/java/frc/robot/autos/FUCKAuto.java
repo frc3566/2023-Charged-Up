@@ -17,6 +17,7 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
@@ -74,7 +75,8 @@ public class FUCKAuto extends SequentialCommandGroup {
             // // new WaitCommand(2), 
             // new InstantCommand(() -> intake.off();
             swerveControllerCommand
-            // new AutoBalancing(s_Swerve)
+            // new InstantCommand(() -> Timer.delay(1)),
+            // new AutoBalancing(s_Swerve, true)
         );
     }
 }

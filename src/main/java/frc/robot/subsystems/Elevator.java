@@ -41,10 +41,13 @@ public class Elevator extends SubsystemBase{
     }
     
     public void periodic() {
+
         extension = (encoder.getPosition()-encoderZero) / fullLength;
+
         if(extension > encoderZero + fullLength && leadMotor.get() > 0){
             leadMotor.set(0);
         }
+        
         // if(extension < encoderZero && leadMotor.get() < 0){
         //     leadMotor.set(0);
         // }
