@@ -23,7 +23,7 @@ public class MoveToPosition extends CommandBase {
     /** Moves the robot to the desired position */
 
     // Main defines;
-
+    private boolean cancelCommand;
     Swerve s_Swerve;
     Vision vision;
 
@@ -35,7 +35,10 @@ public class MoveToPosition extends CommandBase {
     }
 
     @Override
-    public void initialize() {}
+    public void initialize() {
+        cancelCommand = false;
+        return;
+    }
     
     @Override
     public void execute() {
@@ -44,9 +47,10 @@ public class MoveToPosition extends CommandBase {
         var toTargetTrajectory = vision.getTrajectory();
         if (toTargetTrajectory.isEmpty()) {
             DriverStation.reportWarning("Unable to generate trajectory", false);
+            cancelCommand = true;
             return;
         }
-
+        
         System.out.println("Has trajectory");
         Trajectory teleopTrajectory = toTargetTrajectory.get();
 
@@ -69,5 +73,12 @@ public class MoveToPosition extends CommandBase {
                 s_Swerve);
         s_Swerve.resetOdometry(vision.getTrajectory().get().getInitialPose());
         swerveControllerCommand.schedule();
+        
+    }
+    public void end(boolean interrupted) {
+        cancelCommand = true;
+    }
+    public boolean isFinished() {
+      return cancelCommand;
     }
 }

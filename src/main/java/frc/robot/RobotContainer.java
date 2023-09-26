@@ -127,8 +127,10 @@ public class RobotContainer {
         X2.onTrue(new InstantCommand(() -> arm.setAngle(30)));
 
         AutoBalancing autoBalanceCommand;
+        MoveToPosition alignPosition;
         // Y.onTrue(new ZeroSubsystems(s_Swerve, arm, elevator, 2));
-        B.toggleOnTrue(autoBalanceCommand = new AutoBalancing(s_Swerve, false));
+        // B.toggleOnTrue(autoBalanceCommand = new AutoBalancing(s_Swerve, false));
+        B.onTrue(new MoveToPosition(s_Swerve, vision));
         //B.onFalse(new InstantCommand(() -> autoBalanceCommand.cancel()));
 
         PivotUp.onTrue(new InstantCommand(() -> arm.setPower(1)));
