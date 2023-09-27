@@ -42,7 +42,7 @@ public class MoveToPosition extends CommandBase {
                 Constants.AutoConstants.kPThetaController, 0, 0, Constants.AutoConstants.kThetaControllerConstraints);
                 thetaController.enableContinuousInput(-Math.PI, Math.PI);
 
-            SwerveControllerCommand swerveControllerCommand = new SwerveControllerCommand(
+            swerveControllerCommand = new SwerveControllerCommand(
                 trajectory,
                 s_Swerve::getPose,
                 Constants.Swerve.swerveKinematics,
