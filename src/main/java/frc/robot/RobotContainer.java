@@ -126,11 +126,10 @@ public class RobotContainer {
         X.onTrue(new InstantCommand(() -> zeroSubsystems.initialize()));
         X2.onTrue(new InstantCommand(() -> arm.setAngle(30)));
 
-        AutoBalancing autoBalanceCommand;
+        // AutoBalancing autoBalanceCommand;
         // Y.onTrue(new ZeroSubsystems(s_Swerve, arm, elevator, 2));
         // B.toggleOnTrue(autoBalanceCommand = new AutoBalancing(s_Swerve, false));
-        B.onTrue(new MoveToPosition(s_Swerve, vision));
-        B.onFalse(new MoveToPosition(s_Swerve, vision, false));
+        B.onTrue(new InstantCommand(() -> CommandScheduler.getInstance().schedule(new MoveToPosition(s_Swerve, vision))));
 
         PivotUp.onTrue(new InstantCommand(() -> arm.setPower(1)));
         PivotUp.onFalse(new InstantCommand(() -> arm.off()));
