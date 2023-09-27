@@ -92,7 +92,7 @@ public class Vision extends SubsystemBase {
         // TODO: Fix Rotation2d of the end pos
         return Optional.of(TrajectoryGenerator.generateTrajectory(
             new Pose2d(0, 0, new Rotation2d(0)),
-            List.of(end.div(2)),
+            List.of(end.div(2), end),
             new Pose2d(end, new Rotation2d()),
             config
         ));
