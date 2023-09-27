@@ -46,30 +46,13 @@ public class MoveToPosition extends CommandBase {
         var toTargetTrajectory = vision.getTrajectory();
         if (toTargetTrajectory.isEmpty()) {
             DriverStation.reportWarning("Unable to generate trajectory", false);
-            // cancelCommand = true;
-            // return;
+            cancelCommand = true;
+            return;
         }
 
         System.out.println("Has trajectory");
 
-        // Trajectory teleopTrajectory = toTargetTrajectory.get();
-
-        //TODO: Delete following segment
-        TrajectoryConfig config =
-        new TrajectoryConfig(
-                Constants.AutoConstants.kMaxSpeedMetersPerSecond,
-                Constants.AutoConstants.kMaxAccelerationMetersPerSecondSquared)
-            .setKinematics(Constants.Swerve.swerveKinematics);
-
-        Trajectory teleopTrajectory =
-            TrajectoryGenerator.generateTrajectory(
-                // Start at the origin facing the +X direction
-                new Pose2d(0.0, 0.0, new Rotation2d(0)),
-                // Pass through these two interior waypoints, making an 's' curve path
-                List.of(new Translation2d(1.0 * coefficient, 0 * coefficient), new Translation2d(1.0 * coefficient, 0 * coefficient)),
-                new Pose2d(2.0 * coefficient, 0 * coefficient, Rotation2d.fromDegrees(0)), 
-                config);
-
+        Trajectory teleopTrajectory = toTargetTrajectory.get();
 
         System.out.println("Running Teleop Trajectory.");
 
@@ -88,7 +71,6 @@ public class MoveToPosition extends CommandBase {
                 thetaController,
                 s_Swerve::setModuleStates,
                 s_Swerve);
-        // s_Swerve.resetOdometry(vision.getTrajectory().get().getInitialPose());
         s_Swerve.resetOdometry(teleopTrajectory.getInitialPose());
         swerveControllerCommand.schedule();
         cancelCommand = false;
