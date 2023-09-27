@@ -26,6 +26,7 @@ public class MoveToPosition extends CommandBase {
     /** Moves the robot to the desired position */
 
     // Main defines;
+    public static final double coefficient = 1.2;
     private boolean cancelCommand;
     private SwerveControllerCommand swerveControllerCommand;
     Swerve s_Swerve;
@@ -45,8 +46,8 @@ public class MoveToPosition extends CommandBase {
         var toTargetTrajectory = vision.getTrajectory();
         if (toTargetTrajectory.isEmpty()) {
             DriverStation.reportWarning("Unable to generate trajectory", false);
-            cancelCommand = true;
-            return;
+            // cancelCommand = true;
+            // return;
         }
 
         System.out.println("Has trajectory");
@@ -63,11 +64,12 @@ public class MoveToPosition extends CommandBase {
         Trajectory teleopTrajectory =
             TrajectoryGenerator.generateTrajectory(
                 // Start at the origin facing the +X direction
-                new Pose2d(0, 0, new Rotation2d(0)),
+                new Pose2d(0.0, 0.0, new Rotation2d(0)),
                 // Pass through these two interior waypoints, making an 's' curve path
-                List.of(new Translation2d(0, 0)),
-                new Pose2d(0, 0, Rotation2d.fromDegrees(180)), 
+                List.of(new Translation2d(1.0 * coefficient, 0 * coefficient), new Translation2d(1.0 * coefficient, 0 * coefficient)),
+                new Pose2d(2.0 * coefficient, 0 * coefficient, Rotation2d.fromDegrees(0)), 
                 config);
+
 
         System.out.println("Running Teleop Trajectory.");
 
@@ -86,7 +88,8 @@ public class MoveToPosition extends CommandBase {
                 thetaController,
                 s_Swerve::setModuleStates,
                 s_Swerve);
-        s_Swerve.resetOdometry(vision.getTrajectory().get().getInitialPose());
+        // s_Swerve.resetOdometry(vision.getTrajectory().get().getInitialPose());
+        s_Swerve.resetOdometry(teleopTrajectory.getInitialPose());
         swerveControllerCommand.schedule();
         cancelCommand = false;
         return;
