@@ -33,6 +33,10 @@ public class MoveToPosition extends CommandBase {
         // Use addRequirements() here to declare subsystem dependencies.
         addRequirements(s_Swerve, vision);
     }
+    
+    public MoveToPosition(Swerve s_Swerve, Vision vision, boolean ended) {
+        cancelCommand = ended;
+    }
 
     @Override
     public void initialize() {
@@ -50,9 +54,10 @@ public class MoveToPosition extends CommandBase {
             cancelCommand = true;
             return;
         }
-        
+
         System.out.println("Has trajectory");
         Trajectory teleopTrajectory = toTargetTrajectory.get();
+        if (teleopTrajectory)
 
         System.out.println("Running Teleop Trajectory.");
 
