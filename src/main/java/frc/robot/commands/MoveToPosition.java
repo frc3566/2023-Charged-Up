@@ -33,29 +33,17 @@ public class MoveToPosition extends CommandBase {
 
     @Override
     public void initialize() {
-        System.out.println("Waiting for trajectory");
+        System.out.println("Waiting for trajectory...");
         
-        var toTargetTrajectory = vision.getTrajectory();
-        if (toTargetTrajectory.isEmpty()) {
-            DriverStation.reportWarning("Unable to generate trajectory", false);
-            cancelCommand = true;
-            return;
-        }
+        vision.getTrajectory().ifPresentOrElse(trajectory -> {
+            System.out.println("Running vision trajectory");
 
-        System.out.println("Has trajectory");
-
-        Trajectory teleopTrajectory = toTargetTrajectory.get();
-
-        System.out.println("Running Teleop Trajectory.");
-
-        var thetaController =
-            new ProfiledPIDController(
+            var thetaController = new ProfiledPIDController(
                 Constants.AutoConstants.kPThetaController, 0, 0, Constants.AutoConstants.kThetaControllerConstraints);
-        thetaController.enableContinuousInput(-Math.PI, Math.PI);
+                thetaController.enableContinuousInput(-Math.PI, Math.PI);
 
-        swerveControllerCommand =
-            new SwerveControllerCommand(
-                teleopTrajectory,
+            SwerveControllerCommand swerveControllerCommand = new SwerveControllerCommand(
+                trajectory,
                 s_Swerve::getPose,
                 Constants.Swerve.swerveKinematics,
                 new PIDController(Constants.AutoConstants.kPXController, 0, 0),
@@ -63,10 +51,14 @@ public class MoveToPosition extends CommandBase {
                 thetaController,
                 s_Swerve::setModuleStates,
                 s_Swerve);
-        s_Swerve.resetOdometry(teleopTrajectory.getInitialPose());
-        swerveControllerCommand.schedule();
-        cancelCommand = false;
-        return;
+            
+            s_Swerve.resetOdometry(trajectory.getInitialPose());
+            swerveControllerCommand.schedule();
+            cancelCommand = false;
+        }, () -> {
+            cancelCommand = true;
+            DriverStation.reportWarning("Unable to generate vision trajectory", false);
+        });
     }
     
     @Override

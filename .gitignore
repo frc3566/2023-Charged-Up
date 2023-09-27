@@ -43,3 +43,4 @@
 # .icloud
 # .DS_Store
 # build/tmp/compileJava/previous-compilation-data.bin
+build/

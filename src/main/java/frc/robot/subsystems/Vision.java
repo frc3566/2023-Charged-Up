@@ -87,17 +87,15 @@ public class Vision extends SubsystemBase {
 
         Transform3d transform = res.get();
         Translation2d end = transform.getTranslation().toTranslation2d().minus(new Translation2d(0.5, 0)).times(coefficient);
-        System.out.println("transform: " + end);
 
-        return Optional.empty();
         /* Pose2d start, List<Translation2D> pathPoints, Pose2d end, config */
-        //TODO: Fix Rotation2d of the end pos
-        // return Optional.of(TrajectoryGenerator.generateTrajectory(
-        //     new Pose2d(0, 0, new Rotation2d(0)),
-        //     List.of(end.div(2)),
-        //     new Pose2d(end, new Rotation2d(transform.getRotation().getAngle())),
-        //     config
-        // ));
+        // TODO: Fix Rotation2d of the end pos
+        return Optional.of(TrajectoryGenerator.generateTrajectory(
+            new Pose2d(0, 0, new Rotation2d(0)),
+            List.of(end.div(2)),
+            new Pose2d(end, new Rotation2d()),
+            config
+        ));
 
         
     }
