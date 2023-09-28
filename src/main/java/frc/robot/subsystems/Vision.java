@@ -71,29 +71,39 @@ public class Vision extends SubsystemBase {
         System.out.println("range: " + dist);
         System.out.println("target: " + target);
 
-        return Optional.of(target.getBestCameraToTarget());
+        var transform = target.getBestCameraToTarget();
+        if (transform.getTranslation().toTranslation2d().getDistance(new Translation2d()) < 0.5) {
+            return Optional.empty();
+        }
+
+        return Optional.of(transform);
     }
 
     public Optional<Trajectory> getTrajectory() {
         TrajectoryConfig config = Constants.Trajectory.CONFIG;
         double coefficient = Constants.Trajectory.COEFFICIENT;
-        var res = this.getTransform();
-        if (res.isEmpty()) {
+
+        Optional<Trajectory> trajectory = this.getTransform().map(transform -> {
+            Translation2d end = transform.getTranslation().toTranslation2d()
+                .minus(VisionConstants.ROBOT_TO_CAMERA.getTranslation().toTranslation2d())
+                .times(coefficient);
+            
+            return null;
+
+            /* Pose2d start, List<Translation2D> pathPoints, Pose2d end, config */
+            // TODO: Fix Rotation2d of the end pos
+            // return TrajectoryGenerator.generateTrajectory(
+            //     new Pose2d(0, 0, new Rotation2d(0)),
+            //     List.of(end.div(2)),
+            //     new Pose2d(end, new Rotation2d()),
+            //     config
+            // );
+        });
+
+        if (trajectory.isEmpty()) {
             DriverStation.reportWarning("No vision targets in range", false);
-            return Optional.empty();
         }
 
-        Transform3d transform = res.get();
-        Translation2d end = transform.getTranslation().toTranslation2d().minus(new Translation2d(0.5, 0)).times(coefficient);
-
-        /* Pose2d start, List<Translation2D> pathPoints, Pose2d end, config */
-        // TODO: Fix Rotation2d of the end pos
-        return Optional.empty();
-        // return Optional.of(TrajectoryGenerator.generateTrajectory(
-        //     new Pose2d(0, 0, new Rotation2d(0)),
-        //     List.of(end.div(2)),
-        //     new Pose2d(end, new Rotation2d()),
-        //     config
-        // ));
+        return trajectory;
     }
 }

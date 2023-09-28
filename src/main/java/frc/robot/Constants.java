@@ -34,7 +34,7 @@ public final class Constants {
         public static final double CAMERA_PITCH_RADIANS = Math.toRadians(0);
 
         public static final Transform3d ROBOT_TO_CAMERA = new Transform3d(
-            new Translation3d(0, 0, 0), 
+            new Translation3d(0.1, 0, 0.45), 
             new Rotation3d(0, 0, 0)
         );
 
