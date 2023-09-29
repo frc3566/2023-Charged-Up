@@ -111,6 +111,7 @@ public class RobotContainer {
         arm.setDefaultCommand(new IntakePosition(arm, elevator));
 
         vision = new Vision();
+        DriverStation.silenceJoystickConnectionWarning(true);
         // Configure the button bindings
         configureButtonBindings();
     }
