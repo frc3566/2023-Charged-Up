@@ -67,9 +67,9 @@ public class Vision extends SubsystemBase {
             Units.degreesToRadians(target.getPitch())
         );
 
-        System.out.println("yaw: " + target.getYaw());
-        System.out.println("range: " + dist);
-        System.out.println("target: " + target);
+        // System.out.println("yaw: " + Rotation2d.fromRadians(target.getYaw()).getDegrees());
+        // System.out.println("range: " + dist);
+        // System.out.println("target: " + target);
 
         var transform = target.getBestCameraToTarget();
         if (transform.getTranslation().toTranslation2d().getDistance(new Translation2d()) < 0.5) {
@@ -84,20 +84,23 @@ public class Vision extends SubsystemBase {
         double coefficient = Constants.Trajectory.COEFFICIENT;
 
         Optional<Trajectory> trajectory = this.getTransform().map(transform -> {
-            Translation2d end = transform.getTranslation().toTranslation2d()
+            Translation2d endTranslation = transform.getTranslation().toTranslation2d()
                 .minus(VisionConstants.ROBOT_TO_CAMERA.getTranslation().toTranslation2d())
                 .times(coefficient);
             
-            return null;
+            Rotation2d endRotation = Rotation2d.fromDegrees(180)
+                .minus(transform.getRotation().toRotation2d());
 
-            /* Pose2d start, List<Translation2D> pathPoints, Pose2d end, config */
-            // TODO: Fix Rotation2d of the end pos
-            // return TrajectoryGenerator.generateTrajectory(
-            //     new Pose2d(0, 0, new Rotation2d(0)),
-            //     List.of(end.div(2)),
-            //     new Pose2d(end, new Rotation2d()),
-            //     config
-            // );
+            System.out.println("Translation: " + endTranslation);
+            System.out.println("Rotation: " + endRotation);
+            // return null;
+
+            return TrajectoryGenerator.generateTrajectory(
+                new Pose2d(0, 0, new Rotation2d()),
+                List.of(endTranslation.div(2)),
+                new Pose2d(endTranslation, endRotation),
+                config
+            );
         });
 
         if (trajectory.isEmpty()) {

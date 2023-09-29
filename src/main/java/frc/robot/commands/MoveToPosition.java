@@ -63,12 +63,12 @@ public class MoveToPosition extends CommandBase {
     
     @Override
     public void execute() {
-        if (swerveControllerCommand.isFinished())
+        if (!cancelCommand && swerveControllerCommand != null && swerveControllerCommand.isFinished())
             cancelCommand = true;
     }
 
     public void end(boolean interrupted) {
-        if (swerveControllerCommand.isFinished() == false)
+        if (swerveControllerCommand == null || !swerveControllerCommand.isFinished())
             swerveControllerCommand.cancel();
     }
     public boolean isFinished() {
